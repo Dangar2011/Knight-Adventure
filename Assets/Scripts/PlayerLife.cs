@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class PlayerLife : MonoBehaviour
 {
     [SerializeField] private AudioSource deathSound;
-    [SerializeField] private float maxHP  = 100;
     [SerializeField] private float invicibilityTime = 0.35f;
     [SerializeField] private float bounceBack = 5f;
     [SerializeField] private float respawnTime = 2f;
@@ -18,6 +17,7 @@ public class PlayerLife : MonoBehaviour
     private TextMeshProUGUI hpText;
 
     private int life = 3;
+    private float playerHP;
     public float currentHP { get; private set; }
     public int currentLife { get; private set; }
     private bool isDead = false;
@@ -29,18 +29,29 @@ public class PlayerLife : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerMovement = GetComponent<PlayerMovement>();
         sprite = GetComponent<SpriteRenderer>();
+        playerHP = GetComponent<Player>().GetPlayerHP();
         respawnPosition = transform.position;
-        currentHP = maxHP;
+        currentHP = playerHP;
         flashDuration = invicibilityTime;
         currentLife = life;
         
     }
     private void Update()
     {
-        invicibilityTime -= Time.deltaTime;
+        invicibilityTime = Mathf.Clamp(invicibilityTime - Time.deltaTime, 0, flashDuration);
+       
         
     }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
 
+        //if (collision.gameObject.CompareTag("DeathZone"))
+        //{
+
+        //    Die();
+        //}
+
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Checkpoint"))
@@ -51,12 +62,13 @@ public class PlayerLife : MonoBehaviour
     private IEnumerator Die()
     {
         //deathSound.Play();
-        isDead = true;
+        playerMovement.canMove = false;
         anim.SetTrigger("isDeath");             
+        isDead = true;
         currentLife = currentLife - 1;
         if (currentLife == 0)
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             LevelFail();
 
         }
@@ -68,10 +80,10 @@ public class PlayerLife : MonoBehaviour
     }
     public IEnumerator TakeDamage(float damage)
     {
-        if (invicibilityTime < 0)
+        if (invicibilityTime == 0)
         {
             
-            currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
+            currentHP = Mathf.Clamp(currentHP - damage, 0, playerHP);
             if (currentHP > 0)
             {
                 anim.SetTrigger("isTakeHit");
@@ -117,8 +129,8 @@ public class PlayerLife : MonoBehaviour
         anim.SetTrigger("respawn");
         playerMovement.canMove = true;
         transform.position = respawnPosition;
-        currentHP = maxHP;
-        playerMovement.currentMP = GetComponent<Player>().GetPlayerMP();
+        currentHP = playerHP;
+        playerMovement.currentMP = GetComponent<Player>().GetPlayerMP(); 
         anim.SetInteger("state", 0);
         isDead = false;
 
@@ -127,10 +139,6 @@ public class PlayerLife : MonoBehaviour
     public int GetLife()
     {
         return life;
-    }
-    public float GetHP()
-    {
-        return maxHP;
     }
     public void GetEnemySide(int value)
     {
@@ -154,7 +162,7 @@ public class PlayerLife : MonoBehaviour
     }
     public void IncreaseHP(int value)
     {
-        maxHP += value;
+        playerHP += value;
     }
     private void RestartLevel()
     {

@@ -7,11 +7,11 @@ public class Player : MonoBehaviour
     private float playerHP = 100f;
     private float playerMP = 100f;
     private int playerDamage = 10;
-     
+
     public void SetPlayerHP(int value)
     {
         playerHP += value;
-        
+
     }
     public float GetPlayerHP()
     {

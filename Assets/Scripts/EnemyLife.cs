@@ -4,13 +4,16 @@ using UnityEngine;
 public class EnemyLife : MonoBehaviour
 {
     [SerializeField] private int maxHP = 100;
-    public int currentHP { get; private set; }
     private Animator anim;
     private EnemyMovement enemyMovement;
+    public int currentHP { get; private set; } = 100;   
+    public bool isDead = false;
     void Start()
     {
         currentHP = maxHP;
         anim = GetComponent<Animator>();
+        enemyMovement = GetComponentInParent<EnemyMovement>();
+
     }
 
     // Update is called once per frame
@@ -21,25 +24,28 @@ public class EnemyLife : MonoBehaviour
     private IEnumerator Die()
     {
         //deathSound.Play();
-        
+        isDead = true;
         anim.SetTrigger("isDeath");
-        Debug.Log(anim.GetCurrentAnimatorClipInfo(0).Length);
-        yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0).Length);       
-        Destroy(gameObject);
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0).Length+1f);       
+        Destroy(transform.parent.gameObject);
 
 
     }
+    public bool IsDead()
+    {
+        return isDead;
+    }
     public void TakeDamage(int damage)
     {
-            currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-            if (currentHP > 0)
-            {
-                anim.SetTrigger("isTakeHit");
-
-            }
-            else
-            {
-                StartCoroutine(Die());
-            }
+        currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
+        if (currentHP > 0 && !enemyMovement.isAttacking)
+        {
+                anim.SetTrigger("isTakeHit");     
+        }
+        else if(currentHP == 0)
+        {
+            StartCoroutine(Die());
+        }
+       
     }
 }

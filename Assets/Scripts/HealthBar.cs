@@ -10,11 +10,12 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Image healthBar;
     [SerializeField] private Image staminaBar;
     [SerializeField] private Image lifeBar;
-    private PlayerMovement getMP;
+    private PlayerMovement playerMovement;
     private Player player;
+
     void Start()
     {
-        getMP = playerLife.GetComponent<PlayerMovement>();
+        playerMovement = playerLife.GetComponent<PlayerMovement>();
         player = playerLife.GetComponent<Player>();
     }
 
@@ -22,7 +23,7 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         healthBar.fillAmount = playerLife.currentHP / player.GetPlayerHP();
-        staminaBar.fillAmount = getMP.currentMP / player.GetPlayerMP();
+        staminaBar.fillAmount = playerMovement.currentMP / player.GetPlayerMP();
         lifeBar.fillAmount = (float)playerLife.currentLife / (float)playerLife.GetLife();
 
     }

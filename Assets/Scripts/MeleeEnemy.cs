@@ -16,7 +16,7 @@ public class MeleeEnemy : MonoBehaviour
     private float coolDown;
     private int enemySide = 1;
     private bool canMove = true;
-
+    public bool isAttacking = false;
     void Start()
     {
         coolDown = attackDuration;
@@ -28,7 +28,10 @@ public class MeleeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if (canMove)
+
+        enemyMovement.isAttacking = isAttacking;
+
+        if (canMove)
         {
             enemyMovement.enabled = true;
         }
@@ -37,26 +40,29 @@ public class MeleeEnemy : MonoBehaviour
             enemyMovement.enabled = false;
         }
         coolDown -= Time.deltaTime;
-        if (PlayerInsight())
+        if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
-            if(coolDown < 0)
+            
+            if (coolDown < 0)
             {
+                isAttacking = true;
                 anim.SetTrigger("isAttack");
                 coolDown = attackDuration;
                 canMove = false;
             }
         }
-      
+        
         if (enemyMovement != null)
-        {
-            enemyMovement.enabled = !PlayerInsight();
+        {    
             
+            enemyMovement.enabled = !PlayerInsight();           
         }
         if (enemyMovement.enabled == false ) anim.SetInteger("state", 0);
     }
     public void EndAttack()
     {
         canMove = true;
+        isAttacking = false;
     }
 
     private bool PlayerInsight()
@@ -90,6 +96,7 @@ public class MeleeEnemy : MonoBehaviour
             }
             playerLife.GetEnemySide(enemySide);
             StartCoroutine(playerLife.TakeDamage(damage));
-        }
+        }       
+
     }
 }

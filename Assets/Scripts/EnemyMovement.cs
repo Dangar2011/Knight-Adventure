@@ -7,17 +7,16 @@ public class EnemyMovement : MonoBehaviour
 {
     [SerializeField] private Transform left;
     [SerializeField] private Transform right;
-
     [SerializeField] private Transform enemy;
     [SerializeField] private float speed;
-    [SerializeField]private float idleDuration = 1.5f;
+    [SerializeField] private float idleDuration = 1.5f;
     private Animator anim;
     private Vector3 initialScale;
     private MovementState state;
     
     private bool isMovingRight = true;
     private float idle;
-
+    public bool isAttacking = false;
     private enum MovementState
     {
         idle,running
@@ -32,6 +31,7 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         if (isMovingRight)
         {
             if (enemy.position.x <= right.position.x)
