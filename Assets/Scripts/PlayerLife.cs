@@ -38,19 +38,9 @@ public class PlayerLife : MonoBehaviour
     private void Update()
     {
         invicibilityTime -= Time.deltaTime;
-       
         
     }
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
 
-        //if (collision.gameObject.CompareTag("DeathZone"))
-        //{
-
-        //    Die();
-        //}
-
-    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Checkpoint"))
@@ -61,13 +51,12 @@ public class PlayerLife : MonoBehaviour
     private IEnumerator Die()
     {
         //deathSound.Play();
-        playerMovement.canMove = false;
-        anim.SetTrigger("isDeath");             
         isDead = true;
+        anim.SetTrigger("isDeath");             
         currentLife = currentLife - 1;
         if (currentLife == 0)
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(2f);
             LevelFail();
 
         }
@@ -129,7 +118,7 @@ public class PlayerLife : MonoBehaviour
         playerMovement.canMove = true;
         transform.position = respawnPosition;
         currentHP = maxHP;
-        playerMovement.stamina = playerMovement.GetStamina(); ;
+        playerMovement.currentMP = GetComponent<Player>().GetPlayerMP();
         anim.SetInteger("state", 0);
         isDead = false;
 

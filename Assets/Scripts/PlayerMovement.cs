@@ -23,35 +23,32 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private Image attackBackground;
     [SerializeField] private Image dashBackground;
 
-    [SerializeField] private float wallSlideSpeed = 2f;
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 14f;
-    [SerializeField] private float wallJumpDirection = 3f;
-    [SerializeField] private float attackDuration = 0.5f;
+
     [SerializeField] private float dashSpeed = 6f;
-    [SerializeField] private float dashDuration = 0.5f;
-    [SerializeField] private float staminaTotal = 100;
-    [SerializeField] private float staminaRecoverySpeed = 5;
-    [Header("Skill")]
-    [SerializeField] private bool canDoubleJump = false;
-    [SerializeField] private bool canWallSlide = false;
-    [SerializeField] private bool canDash = false;
+
+    [SerializeField] private float recoverySpeedMP = 25f;
+    private float playerMP;
 
 
     private MovementState state;
     private bool isGrounded;
-    private bool isWallSliding;
-    private bool isFacingRight;
     private float directX;  
-    private float wallJumpCoolDown;
+    public float currentMP;
+
+    private bool isFacingRight;
+    public int facingDirection = 1;
+
     private bool isJumping;
+    private float dashDuration;
+    private float attackDuration;
     private bool isAttacking = false;
+    private bool isDashing = false;
     private float attack = 0f;
     private float dash = 0f;
-    private bool isDashing = false;
-    public int facingDirection = 1;
     public bool canMove = true;
-    public float stamina;
+
     private enum MovementState
     {
         idle, running, jumping, falling, doublejumping, wallsliding,dashing
@@ -65,9 +62,10 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
         tr = GetComponent<TrailRenderer>();
+        playerMP = GetComponent<Player>().GetPlayerMP();
         attack = attackDuration;
         dash = dashDuration;
-        stamina = staminaTotal;
+        currentMP = playerMP;
         attackDuration = 0;
         dashDuration = 0;
     }
@@ -75,9 +73,9 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        directX = Input.GetAxisRaw("Horizontal");
         if (!GetComponent<PlayerLife>().IsDead() || !isAttacking || !isDashing)
         {
-            //Debug.Log(canMove);
             if (directX > 0f)
             {
                 isFacingRight = true;
@@ -87,50 +85,50 @@ public class PlayerMovement : MonoBehaviour
             {
                 isFacingRight = false;
                 facingDirection = -1;
-
             }
         }
-        directX = Input.GetAxisRaw("Horizontal");
-        isWallSliding = IsTouchingWall() && canWallSlide;
         isGrounded = IsGrounded();
 
+        
+        UpdateAnimationMove();
+        CanMove();
 
-        attackDuration = Mathf.Clamp(attackDuration - Time.deltaTime, 0f,attack);      
-        if (attackDuration > 0 )attackBackground.fillAmount = attackDuration / attack;
-        dashDuration = Mathf.Clamp(dashDuration - Time.deltaTime, 0f,dash);
+    }
+    void FixedUpdate()
+    {
+        attackDuration = Mathf.Clamp(attackDuration - Time.deltaTime, 0f, attack);
+        if (attackDuration > 0) attackBackground.fillAmount = attackDuration / attack;
+        dashDuration = Mathf.Clamp(dashDuration - Time.deltaTime, 0f, dash);
         if (dashDuration > 0) dashBackground.fillAmount = dashDuration / dash;
 
         if (!isDashing)
         {
-            stamina = Mathf.Clamp(stamina + Time.deltaTime * staminaRecoverySpeed, 0, staminaTotal);
+            Debug.Log("TIme "+Time.deltaTime);
+            Debug.Log(Time.deltaTime * 5);
+            currentMP = Mathf.Clamp(currentMP + Time.deltaTime * recoverySpeedMP, 0, playerMP);
         }
-        if (!isAttacking && !isDashing && canMove)
-        {
-        rb.velocity = new Vector2(directX * moveSpeed, rb.velocity.y);
-        }
-        if (isGrounded || isWallSliding)
-        {          
-        }
-        
-        if (isWallSliding && canWallSlide)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlideSpeed, float.MaxValue));
-        }
+
         if (canMove)
         {
+            rb.velocity = new Vector2(directX * moveSpeed, rb.velocity.y);
+
             if (Input.GetButtonDown("Jump"))
-            {   
-                    Jump();                
-            }else if (Input.GetMouseButtonDown(0))
+            {
+                Jump();
+            }
+            else if (Input.GetMouseButtonDown(0))
             {
                 StartCoroutine(Attack());
-            }else if(Input.GetKeyDown(KeyCode.LeftShift) && stamina >= 25)
+            }
+            else if (Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 25)
             {
                 StartCoroutine(Dash());
             }
         }
-        UpdateAnimationMove();
-
+    }
+    private void CanMove()
+    {
+        canMove = !GetComponent<PlayerLife>().IsDead() || !isAttacking || !isDashing; 
     }
     private IEnumerator Attack()
     {
@@ -152,31 +150,19 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJumping = true;
         }
-        else if (isJumping && canDoubleJump)
+        else if (isJumping)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJumping = false;
-        }
-        else if (isWallSliding && wallJumpCoolDown >= 1f)
-        {
-            if (IsTouchingLeftWall())
-            {
-                rb.velocity = new Vector2(wallJumpDirection, jumpForce);
-            }
-            else if (IsTouchingRightWall())
-            {
-                rb.velocity = new Vector2(-wallJumpDirection, jumpForce);
-            }
-            wallJumpCoolDown = 0;
-        }
+        }     
        
 
     }
     private IEnumerator Dash()
     {      
-        if(canDash && dashDuration <= 0f)
+        if(dashDuration <= 0f)
         {
-            stamina =  Mathf.Clamp(stamina - 25, 0, staminaTotal);           
+            currentMP =  Mathf.Clamp(currentMP - 25, 0, playerMP);           
             isDashing = true;
             
             float originalGravity = rb.gravityScale;
@@ -221,12 +207,8 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.idle;
 
-        }
-        if (isWallSliding && !isGrounded && rb.velocity.y < -.1f)
-        {
-            state = MovementState.wallsliding;
-        }
-        else if (rb.velocity.y > .1f)
+        }      
+        if (rb.velocity.y > .1f)
         {
 
             state = MovementState.jumping;
@@ -238,10 +220,7 @@ public class PlayerMovement : MonoBehaviour
         }
         anim.SetInteger("state", (int)state);
     }
-    public float GetStamina()
-    {
-        return staminaTotal;
-    }
+
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(coll.bounds.center, coll.bounds.size, 0f, Vector2.down, .1f, groundLayer);

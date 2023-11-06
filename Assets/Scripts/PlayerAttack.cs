@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    private EnemyLife enemyLife;
+
     [SerializeField] private float attackRange = 3;
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] public int damage { get; private set; } = 20;
     [SerializeField]private BoxCollider2D coll;
-    private EnemyLife enemyLife;
+
+    private int damage;
     void Start()
     {
-        coll = GetComponent<BoxCollider2D>();
+
+        damage = GetComponent<Player>().GetPlayerDamage();
     }
 
     // Update is called once per frame

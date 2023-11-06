@@ -23,6 +23,7 @@ public class EnemyLife : MonoBehaviour
         //deathSound.Play();
         
         anim.SetTrigger("isDeath");
+        Debug.Log(anim.GetCurrentAnimatorClipInfo(0).Length);
         yield return new WaitForSeconds(anim.GetCurrentAnimatorClipInfo(0).Length);       
         Destroy(gameObject);
 
