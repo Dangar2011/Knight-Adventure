@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5014166191670184683}
   - component: {fileID: 248574295442851984}
   m_Layer: 0
-  m_Name: Enemy Area
+  m_Name: Electric Demon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,6 +83,7 @@ MonoBehaviour:
   enemy: {fileID: 4326048835800780160}
   speed: 4
   idleDuration: 1.5
+  isAttacking: 0
 --- !u!1 &6791101067395922687
 GameObject:
   m_ObjectHideFlags: 0
@@ -125,6 +126,10 @@ PrefabInstance:
     - target: {fileID: 5525990778038347855, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
       propertyPath: damage
       value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 5525990778038347855, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
+      propertyPath: attackRange
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6296351663757023857, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
       propertyPath: m_LocalScale.x
@@ -199,6 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881e961a12460474a86437372315a756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHP: 100
+  isDead: 0
 --- !u!4 &4326048835800780160 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6296351663757023857, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
