@@ -84,7 +84,7 @@ public class PlayerLife : MonoBehaviour
         {
             
             currentHP = Mathf.Clamp(currentHP - damage, 0, playerHP);
-            if (currentHP > 0)
+            if (currentHP > 0 && !isDead)
             {
                 anim.SetTrigger("isTakeHit");
                 StartCoroutine(FlashCharacter());

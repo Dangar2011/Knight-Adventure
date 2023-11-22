@@ -17,6 +17,7 @@ public class EnemyMovement : MonoBehaviour
     private bool isMovingRight = true;
     private float idle;
     public bool isAttacking = false;
+    public bool isSummoning = false;
     private enum MovementState
     {
         idle,running
@@ -31,7 +32,10 @@ public class EnemyMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (enemy.GetComponent<EnemyLife>().IsDead())
+        {
+            speed = 0;
+        }
         if (isMovingRight)
         {
             if (enemy.position.x <= right.position.x)
@@ -60,7 +64,8 @@ public class EnemyMovement : MonoBehaviour
         idle = idleDuration;
         state = MovementState.running;
         
-        enemy.localScale = new Vector3 (directX,initialScale.y, initialScale.z);
+        enemy.localScale = new Vector3 (directX * initialScale.x,initialScale.y, initialScale.z);
+
         enemy.position = new Vector3(enemy.position.x + Time.deltaTime * directX * speed,
             enemy.position.y,enemy.position.z);
     }

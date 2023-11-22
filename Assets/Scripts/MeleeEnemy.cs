@@ -5,18 +5,18 @@ using UnityEngine;
 
 public class MeleeEnemy : MonoBehaviour
 {
+    private Animator anim;
+    private PlayerLife playerLife;
+    private EnemyMovement enemyMovement;
     [SerializeField]private BoxCollider2D coll;
     [SerializeField] private float attackDuration = 1f;
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private float attackRange;
     [SerializeField] private int damage = 20;
-    private Animator anim;
-    private PlayerLife playerLife;
-    private EnemyMovement enemyMovement;
+
     private float coolDown;
     private int enemySide = 1;
-    private bool canMove = true;
-    public bool isAttacking = false;
+    private bool isAttacking = false;
     void Start()
     {
         coolDown = attackDuration;
@@ -28,10 +28,8 @@ public class MeleeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         enemyMovement.isAttacking = isAttacking;
-
-        if (canMove)
+        if (!isAttacking && !enemyMovement.isSummoning)
         {
             enemyMovement.enabled = true;
         }
@@ -43,12 +41,11 @@ public class MeleeEnemy : MonoBehaviour
         if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
             
-            if (coolDown < 0)
+            if (coolDown < 0 && !enemyMovement.isSummoning)
             {
                 isAttacking = true;
                 anim.SetTrigger("isAttack");
                 coolDown = attackDuration;
-                canMove = false;
             }
         }
         
@@ -61,7 +58,6 @@ public class MeleeEnemy : MonoBehaviour
     }
     public void EndAttack()
     {
-        canMove = true;
         isAttacking = false;
     }
 
