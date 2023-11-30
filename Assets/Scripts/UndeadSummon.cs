@@ -27,7 +27,8 @@ public class UndeadSummon : MonoBehaviour
     void Update()
     {
         Vector2 fallVelocity = new Vector2(0, -speed); 
-        rb.velocity = fallVelocity;
+        if(rb.bodyType == RigidbodyType2D.Dynamic)
+            rb.velocity = fallVelocity;
 
     }
     private void OnTriggerEnter2D(Collider2D collision)

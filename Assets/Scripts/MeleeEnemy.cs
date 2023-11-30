@@ -17,6 +17,7 @@ public class MeleeEnemy : MonoBehaviour
     private float coolDown;
     private int enemySide = 1;
     private bool isAttacking = false;
+    private bool isSummoning = false;
     void Start()
     {
         coolDown = attackDuration;
@@ -28,33 +29,39 @@ public class MeleeEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        enemyMovement.isAttacking = isAttacking;
-        if (!isAttacking && !enemyMovement.isSummoning)
+        if(enemyMovement != null)
         {
-            enemyMovement.enabled = true;
-        }
-        else
-        {
-            enemyMovement.enabled = false;
-        }
+            enemyMovement.isAttacking = isAttacking;
+            isSummoning = enemyMovement.isSummoning;
+            enemyMovement.enabled = !PlayerInsight();
+            if (!isAttacking && !isSummoning)
+            {
+                enemyMovement.enabled = true;
+            }
+            else
+            {
+                enemyMovement.enabled = false;
+                
+            }
+            if (enemyMovement.enabled == false)
+            {
+                anim.SetInteger("state", 0);
+            }
+        }       
         coolDown -= Time.deltaTime;
         if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
             
-            if (coolDown < 0 && !enemyMovement.isSummoning)
+            if (coolDown < 0 && !isSummoning)
             {
                 isAttacking = true;
                 anim.SetTrigger("isAttack");
                 coolDown = attackDuration;
             }
+            anim.SetInteger("state", 0);
         }
         
-        if (enemyMovement != null)
-        {    
-            
-            enemyMovement.enabled = !PlayerInsight();           
-        }
-        if (enemyMovement.enabled == false ) anim.SetInteger("state", 0);
+      
     }
     public void EndAttack()
     {
