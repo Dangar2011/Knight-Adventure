@@ -39,6 +39,7 @@ public class LevelMenu : MonoBehaviour
     {
         string levelName = "Level " + levelId;
         SceneManager.LoadScene(levelName);
+        if (Time.timeScale == 0f) Time.timeScale = 1f;
         //Scene scene = SceneManager.GetSceneByName(levelName);
         //if (scene.IsValid())
         //{
