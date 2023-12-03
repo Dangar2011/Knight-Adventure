@@ -72,7 +72,6 @@ public class PlayerStatus : MonoBehaviour
     public void Cheat()
     {
         player.SetPlayerCoin(1000);
-        PlayerPrefs.Save();
     }
     public void DeleteAllKey()
     {
