@@ -9,7 +9,7 @@ public class Player : MonoBehaviour
     private float playerSpeed = 5f;
     public float maxPlayerHP { get; private set;} = 300f;
     public float maxPlayerDamage { get; private set; } = 50f;
-    public float maxPlayerSpeed { get; private set; } = 24f;
+    public float maxPlayerSpeed { get; private set; } = 10f;
     public float coin { get; private set; }
     private void Start()
     {
@@ -38,7 +38,7 @@ public class Player : MonoBehaviour
     {
         return playerDamage;
     }
-    public void SetPlayerSpeed(float value = 2)
+    public void SetPlayerSpeed(float value = 1)
     {
         playerSpeed = Mathf.Clamp(playerSpeed + value, 0, maxPlayerSpeed);
         SavePlayerData();
