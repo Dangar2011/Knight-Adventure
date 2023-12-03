@@ -28,10 +28,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float attackDuration = 0.5f;
     [SerializeField] private float dashSpeed = 6f;
     [SerializeField] private float dashDuration = 0.5f;
-    private float playerMP;
+    public float playerMP { get; private set; } = 100f;
     [SerializeField] private float MPRecoverySpeed = 5;
     [Header("Skill")]
-
 
 
     private MovementState state;
@@ -61,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         coll = GetComponent<BoxCollider2D>();
         tr = GetComponent<TrailRenderer>();
-        playerMP = GetComponent<Player>().GetPlayerMP();
+        moveSpeed = GetComponent<Player>().GetPlayerSpeed();
         attack = attackDuration;
         dash = dashDuration;
         currentMP = playerMP;

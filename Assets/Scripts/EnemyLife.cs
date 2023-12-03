@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class EnemyLife : MonoBehaviour
 {
-    [SerializeField] private int maxHP = 100;
+    [SerializeField] private float maxHP = 100;
     private Animator anim;
     private EnemyMovement enemyMovement;
     private bool isAttacking = false;
     private bool isSummoning = false;
-    public int currentHP { get; private set; } = 100;   
+    public float currentHP { get; private set; } = 100;   
     public bool isDead = false;
     void Start()
     {
@@ -37,7 +37,7 @@ public class EnemyLife : MonoBehaviour
     {
         return isDead;
     }
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
         if(enemyMovement != null)

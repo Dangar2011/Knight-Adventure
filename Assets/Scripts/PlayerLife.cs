@@ -130,7 +130,7 @@ public class PlayerLife : MonoBehaviour
         playerMovement.canMove = true;
         transform.position = respawnPosition;
         currentHP = playerHP;
-        playerMovement.currentMP = GetComponent<Player>().GetPlayerMP(); 
+        playerMovement.currentMP = playerMovement.playerMP; 
         anim.SetInteger("state", 0);
         isDead = false;
 

@@ -5,17 +5,21 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     private float playerHP = 100f;
-    private float playerMP = 100f;
-    private int playerDamage = 10;
-
+    private float playerDamage = 10f;
+    private float playerSpeed = 5f;
+    public float maxPlayerHP { get; private set;} = 300f;
+    public float maxPlayerDamage { get; private set; } = 50f;
+    public float maxPlayerSpeed { get; private set; } = 24f;
+    public float coin { get; private set; }
     private void Start()
     {
         LoadPlayerData();
     }
 
-    public void SetPlayerHP(float value = 10f)
+    public void SetPlayerHP(float value = 30f)
     {
-        playerHP += value;
+        playerHP = Mathf.Clamp(playerHP + value, 0 , maxPlayerHP);
+        
         SavePlayerData();
     }
 
@@ -24,39 +28,50 @@ public class Player : MonoBehaviour
         return playerHP;
     }
 
-    public void SetPlayerMP(float value = 10f)
+    public void SetPlayerDamage(float value = 5)
     {
-        playerMP += value;
-        SavePlayerData();
-    }
-
-    public float GetPlayerMP()
-    {
-        return playerMP;
-    }
-
-    public void SetPlayerDamage(int value = 2)
-    {
-        playerDamage += value;
+        playerDamage = Mathf.Clamp(playerDamage + value, 0, maxPlayerDamage); 
         SavePlayerData(); 
     }
 
-    public int GetPlayerDamage()
+    public float GetPlayerDamage()
     {
         return playerDamage;
     }
+    public void SetPlayerSpeed(float value = 2)
+    {
+        playerSpeed = Mathf.Clamp(playerSpeed + value, 0, maxPlayerSpeed);
+        SavePlayerData();
+    }
 
+    public float GetPlayerSpeed()
+    {       
+        return playerSpeed;
+    }
+    public void SetPlayerCoin(float value)
+    {
+        coin = Mathf.Clamp(coin + value, 0,Mathf.Infinity);
+        SavePlayerData();
+
+    }
+    public float GetPlayerCoin()
+    {
+        return coin;
+    }
     private void SavePlayerData()
     {
         PlayerPrefs.SetFloat("PlayerHP", playerHP);
-        PlayerPrefs.SetFloat("PlayerMP", playerMP);
-        PlayerPrefs.SetInt("PlayerDamage", playerDamage);
+        PlayerPrefs.SetFloat("PlayerDamage", playerDamage);
+        PlayerPrefs.SetFloat("PlayerSpeed", playerSpeed);
+        PlayerPrefs.SetFloat("PlayerCoin", coin);
+        PlayerPrefs.Save();
     }
 
     private void LoadPlayerData()
     {
-        playerHP = PlayerPrefs.GetFloat("PlayerHP", 100f);
-        playerMP = PlayerPrefs.GetFloat("PlayerMP", 100f);
-        playerDamage = PlayerPrefs.GetInt("PlayerDamage", 10);
+        playerHP = PlayerPrefs.GetFloat("PlayerHP",100f);
+        playerDamage = PlayerPrefs.GetFloat("PlayerDamage",10f);
+        playerSpeed = PlayerPrefs.GetFloat("PlayerSpeed",5f);
+        coin = PlayerPrefs.GetFloat("PlayerCoin",0f);
     }
 }

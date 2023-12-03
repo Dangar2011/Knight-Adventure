@@ -23,7 +23,7 @@ public class HealthBar : MonoBehaviour
     void Update()
     {
         healthBar.fillAmount = playerLife.currentHP / player.GetPlayerHP();
-        staminaBar.fillAmount = playerMovement.currentMP / player.GetPlayerMP();
+        staminaBar.fillAmount = playerMovement.currentMP / playerMovement.playerMP;
         lifeBar.fillAmount = (float)playerLife.currentLife / (float)playerLife.GetLife();
 
     }

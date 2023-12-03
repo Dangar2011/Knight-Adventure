@@ -6,7 +6,7 @@ public class PlayerAttack : MonoBehaviour
 {
     [SerializeField] private float attackRange = 3;
     [SerializeField] private LayerMask enemyLayer;
-    private int damage;
+    private float damage;
     [SerializeField]private BoxCollider2D coll;
     private EnemyLife enemyLife;
     void Start()
