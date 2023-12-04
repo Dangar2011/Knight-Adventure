@@ -15,6 +15,16 @@ public class Player : MonoBehaviour
     {
         LoadPlayerData();
     }
+    //public Player(float playerHP, float playerDamage, float playerSpeed, float maxPlayerHP, float maxPlayerDamage, float maxPlayerSpeed, float coin)
+    //{
+    //    this.playerHP = playerHP;
+    //    this.playerDamage = playerDamage;
+    //    this.playerSpeed = playerSpeed;
+    //    this.maxPlayerHP = maxPlayerHP;
+    //    this.maxPlayerDamage = maxPlayerDamage;
+    //    this.maxPlayerSpeed = maxPlayerSpeed;
+    //    this.coin = coin;
+    //}
 
     public void SetPlayerHP(float value = 30f)
     {

@@ -13,12 +13,6 @@ public class PlayerAttack : MonoBehaviour
     {
         damage = GetComponent<Player>().GetPlayerDamage();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
     private bool EnemyInsight()
     {
         RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center + transform.right * attackRange * transform.GetComponent<PlayerMovement>().facingDirection,

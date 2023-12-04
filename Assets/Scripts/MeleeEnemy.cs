@@ -31,8 +31,8 @@ public class MeleeEnemy : MonoBehaviour
     {
         if(enemyMovement != null)
         {
-            enemyMovement.isAttacking = isAttacking;
-            isSummoning = enemyMovement.isSummoning;
+            EnemyLife.isAttacking = isAttacking;
+            isSummoning = EnemyLife.isSummoning;
             enemyMovement.enabled = !PlayerInsight();
             if (!isAttacking && !isSummoning)
             {
@@ -91,13 +91,13 @@ public class MeleeEnemy : MonoBehaviour
         {
             if (transform.position.x < playerLife.transform.position.x)
             {
-                enemySide = 1;
+                PlayerLife.enemyPosition = 1;
             }
             else
             {
-                enemySide = -1;
+                PlayerLife.enemyPosition = -1;
             }
-            playerLife.GetEnemySide(enemySide);
+           // playerLife.GetEnemySide(enemySide);
             StartCoroutine(playerLife.TakeDamage(damage));
         }       
 

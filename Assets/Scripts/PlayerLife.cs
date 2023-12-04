@@ -22,7 +22,7 @@ public class PlayerLife : MonoBehaviour
     public int currentLife { get; private set; }
     private bool isDead = false;
     private float flashDuration;
-    private int enemyPosition;
+    public  static int enemyPosition;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -45,11 +45,11 @@ public class PlayerLife : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
-        //if (collision.gameObject.CompareTag("DeathZone"))
-        //{
-
-        //    Die();
-        //}
+        if (collision.gameObject.CompareTag("Death Zone"))
+        {
+            rb.bodyType = RigidbodyType2D.Static;
+            Die();
+        }
 
     }
     private void OnTriggerEnter2D(Collider2D collision)
@@ -61,7 +61,6 @@ public class PlayerLife : MonoBehaviour
     }
     private IEnumerator Die()
     {
-        //deathSound.Play();
         playerMovement.canMove = false;
         anim.SetTrigger("isDeath");             
         isDead = true;
@@ -126,6 +125,7 @@ public class PlayerLife : MonoBehaviour
     }
     private void RespawnPlayer()
     {
+        rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetTrigger("respawn");
         playerMovement.canMove = true;
         transform.position = respawnPosition;
@@ -140,10 +140,10 @@ public class PlayerLife : MonoBehaviour
     {
         return life;
     }
-    public void GetEnemySide(int value)
-    {
-        enemyPosition = value;
-    }
+    //public void GetEnemySide(int value)
+    //{
+    //    enemyPosition = value;
+    //}
     public void UpdateCheckpoint(Vector2 checkpointPosition)
     {
         respawnPosition = checkpointPosition;
@@ -152,20 +152,12 @@ public class PlayerLife : MonoBehaviour
     {
         Debug.Log("fail");
     }
-    public void Heal(float value)
+    public void Heal(float value = 20f)
     {
         currentHP += value;
     }
     public void CollectHeart()
     {
         currentLife++;
-    }
-    public void IncreaseHP(int value)
-    {
-        playerHP += value;
-    }
-    private void RestartLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

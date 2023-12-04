@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-
-    [SerializeField] private AudioSource checkSound;
     private Animator anim;
     private bool isChecked = false;
     // Start is called before the first frame update

@@ -6,9 +6,11 @@ public class EnemyLife : MonoBehaviour
     [SerializeField] private float maxHP = 100;
     private Animator anim;
     private EnemyMovement enemyMovement;
-    private bool isAttacking = false;
-    private bool isSummoning = false;
+
+    public static bool isAttacking = false;
+    public static bool isSummoning = false;
     public float currentHP { get; private set; } = 100;   
+    public float enemyCoin { get; private set; } = 1f;
     public bool isDead = false;
     void Start()
     {
@@ -26,8 +28,10 @@ public class EnemyLife : MonoBehaviour
     private void Die()
     {
         //deathSound.Play();
+        FinishPoint.coin += enemyCoin;
         isDead = true;
-        anim.SetTrigger("isDeath");     
+        anim.SetTrigger("isDeath");
+     
     }
     public void Disappear()
     {
@@ -40,12 +44,7 @@ public class EnemyLife : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        if(enemyMovement != null)
-        {
-            isAttacking = enemyMovement.isAttacking;
-            isSummoning = enemyMovement.isSummoning;
-        }
-
+        Debug.Log(isAttacking);
         if (currentHP > 1 && !isAttacking && !isSummoning)
         {
                 anim.SetTrigger("isTakeHit");     

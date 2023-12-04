@@ -453,7 +453,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 414.8, y: -150}
+  m_AnchoredPosition: {x: 400, y: -150}
   m_SizeDelta: {x: 140, y: 183.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &55695818
@@ -1320,7 +1320,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 564110648}
+      - m_Target: {fileID: 1365468552}
         m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
         m_MethodName: UpgradeHP
         m_Mode: 1
@@ -2156,7 +2156,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 564110648}
+      - m_Target: {fileID: 1365468552}
         m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
         m_MethodName: UpgradeDamage
         m_Mode: 1
@@ -2318,7 +2318,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 85.2, y: -150}
+  m_AnchoredPosition: {x: 100, y: -150}
   m_SizeDelta: {x: 140, y: 183.6}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &344930491
@@ -3360,7 +3360,7 @@ RectTransform:
   - {fileID: 734406025}
   - {fileID: 1887841335}
   - {fileID: 14438342}
-  - {fileID: 1946333584}
+  - {fileID: 1365468550}
   - {fileID: 1216702812}
   - {fileID: 1770036325}
   m_Father: {fileID: 270120676}
@@ -3420,6 +3420,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff5cf79aa15344e4fa4917c1d7ec87d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  victoryPanel: {fileID: 0}
 --- !u!1 &564052389
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,8 +3564,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 564110646}
-  - component: {fileID: 564110648}
-  - component: {fileID: 564110647}
   m_Layer: 5
   m_Name: Player Status
   m_TagString: Untagged
@@ -3594,40 +3593,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -0.00048256}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &564110647
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564110645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae98ef5f96b32a478875b7df60e8a1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &564110648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 564110645}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b154cb595f5f9c045a6892b03d147176, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentHP: {fileID: 136612952}
-  currentSpeed: {fileID: 176948861}
-  currentDamage: {fileID: 248426705}
-  coinText: {fileID: 1141607586}
-  coinToUpHPText: {fileID: 1360432380}
-  coinToUpSpeedText: {fileID: 965634430}
-  coinToUpDamageText: {fileID: 203341255}
-  upgradeHP: {fileID: 217545220}
-  upgradeSpeed: {fileID: 589783670}
-  upgradeDamage: {fileID: 293612897}
 --- !u!1 &584510570
 GameObject:
   m_ObjectHideFlags: 0
@@ -3845,7 +3810,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 564110648}
+      - m_Target: {fileID: 1365468552}
         m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
         m_MethodName: UpgradeSpeed
         m_Mode: 1
@@ -6650,7 +6615,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 564110648}
+      - m_Target: {fileID: 1365468552}
         m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
         m_MethodName: DeleteAllKey
         m_Mode: 1
@@ -7411,6 +7376,74 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1360432378}
   m_CullTransparentMesh: 1
+--- !u!1 &1365468549
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1365468550}
+  - component: {fileID: 1365468552}
+  - component: {fileID: 1365468551}
+  m_Layer: 0
+  m_Name: Upgrade
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1365468550
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365468549}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.916293, y: 3.0388427, z: -0.28577667}
+  m_LocalScale: {x: 1.0309278, y: 1.0309278, z: 1.0309278}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1946333584}
+  m_Father: {fileID: 548070438}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1365468551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365468549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae98ef5f96b32a478875b7df60e8a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1365468552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365468549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b154cb595f5f9c045a6892b03d147176, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentHP: {fileID: 136612952}
+  currentSpeed: {fileID: 176948861}
+  currentDamage: {fileID: 248426705}
+  coinText: {fileID: 1141607586}
+  coinToUpHPText: {fileID: 1360432380}
+  coinToUpSpeedText: {fileID: 965634430}
+  coinToUpDamageText: {fileID: 203341255}
+  upgradeHP: {fileID: 217545220}
+  upgradeSpeed: {fileID: 589783670}
+  upgradeDamage: {fileID: 293612897}
 --- !u!1 &1374809929
 GameObject:
   m_ObjectHideFlags: 0
@@ -7986,7 +8019,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 564110648}
+      - m_Target: {fileID: 1365468552}
         m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
         m_MethodName: Cheat
         m_Mode: 1
@@ -9892,7 +9925,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1946333584
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9900,9 +9933,9 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1946333583}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2772034}
+  m_LocalScale: {x: 0.97, y: 0.97, z: 0.97}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 495731646}
@@ -9912,12 +9945,12 @@ RectTransform:
   - {fileID: 1242387429}
   - {fileID: 1567372693}
   - {fileID: 564110646}
-  m_Father: {fileID: 548070438}
+  m_Father: {fileID: 1365468550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -9.618805, y: -2.9476776}
+  m_SizeDelta: {x: 800, y: 449.89688}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1946333585
 MonoBehaviour:
@@ -10036,7 +10069,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 140, y: 183.6}
-  m_Spacing: {x: 24.8, y: 7.55}
+  m_Spacing: {x: 10, y: 7.55}
   m_Constraint: 1
   m_ConstraintCount: 3
 --- !u!1 &1981794797

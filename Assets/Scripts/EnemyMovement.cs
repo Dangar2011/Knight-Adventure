@@ -16,8 +16,6 @@ public class EnemyMovement : MonoBehaviour
     
     private bool isMovingRight = true;
     private float idle;
-    public bool isAttacking = false;
-    public bool isSummoning = false;
     private enum MovementState
     {
         idle,running

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SummonEnemy : MonoBehaviour
 {
-    private EnemyMovement enemyMovement;
+   // private EnemyMovement enemyMovement;
     private Animator anim;
     public GameObject summonPosition;
     public GameObject player;
@@ -22,7 +22,7 @@ public class SummonEnemy : MonoBehaviour
         coolDown = summonDuration;
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
-        enemyMovement = GetComponentInParent<EnemyMovement>();
+        //enemyMovement = GetComponentInParent<EnemyMovement>();
         player = GameObject.FindGameObjectWithTag("Player");
         summonPosition = transform.GetChild(0).gameObject;
     }
@@ -32,13 +32,12 @@ public class SummonEnemy : MonoBehaviour
        
 
         coolDown -=Time.deltaTime;
-        enemyMovement.isSummoning= isSummoning;      
+        EnemyLife.isSummoning= isSummoning;      
         if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
-
             Vector3 playerHeadPosition = player.transform.position + Vector3.up * heightSummon; 
             summonPosition.transform.position = playerHeadPosition;
-            if (coolDown < 0 && !enemyMovement.isAttacking)
+            if (coolDown < 0 && !EnemyLife.isAttacking)
             {
                 isSummoning = true;
                 anim.SetTrigger("isSummon");
