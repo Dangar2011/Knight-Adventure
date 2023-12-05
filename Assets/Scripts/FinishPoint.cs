@@ -9,8 +9,7 @@ public class FinishPoint : MonoBehaviour
 
     public static float coin = 0;
     public TextMeshProUGUI coinText;
-    public Transform enemy;
-    public GameObject victoryPanel;
+    public Transform enemy; 
     private Animator anim;
     public static bool isFinish = false;
     private bool isOpenGate;
@@ -23,14 +22,19 @@ public class FinishPoint : MonoBehaviour
     void Update()
     {
         coinText.text = coin.ToString();
-        if(!isOpenGate && EnemyCount.enemyCount == 0)
+        Debug.Log(EnemyCount.enemyCount);
+        if(!isOpenGate )
         {
+            if(EnemyCount.enemyCount == 0)
+            {
             isOpenGate = true;
             OpenGate();
+            }
         }
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
+            Debug.Log((SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel")));
         if(EnemyCount.enemyCount == 0)
         {
             isDone = true;

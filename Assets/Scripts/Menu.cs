@@ -30,7 +30,10 @@ public class Menu : MonoBehaviour
     }
     public void Victory()
     {
+       if(victoryPanel != null)
+        {
         victoryPanel.SetActive(true);
+        }
     }
     private void Update()
     {
@@ -38,6 +41,7 @@ public class Menu : MonoBehaviour
         {
             isOpenVictory = true;
             Victory();
+            
         }
     }
     public void NextLevel()
