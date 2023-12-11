@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,9 +6,11 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour
 {
     public GameObject victoryPanel;
+    public GameObject failPanel;
     private bool isOpenVictory = false;
     public Slider musicSlider,sfxSlider;
     public Toggle fullScreenToggle;
+    private bool isFail = false;
 
     private void Start()
     {
@@ -36,7 +36,8 @@ public class Menu : MonoBehaviour
                 Screen.SetResolution(screenWidth, screenHeight, false);
             }
         }
-
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+        AudioManager.Instance.PlayMusic("Theme" + sceneIndex);
     }
 
     private void Update()
@@ -46,6 +47,11 @@ public class Menu : MonoBehaviour
             isOpenVictory = true;
             Victory();
 
+        }
+        if (PlayerLife.isFail && !isFail)
+        {
+            isFail = true;
+            Fail();
         }
     }
     public void ApplicationQuit()
@@ -74,6 +80,7 @@ public class Menu : MonoBehaviour
     {
        if(victoryPanel != null)
         {
+           
             victoryPanel.SetActive(true);
             Transform text = victoryPanel.transform.Find("Menu");
             TextMeshProUGUI[] textMeshProArray = text.GetComponentsInChildren<TextMeshProUGUI>();
@@ -84,7 +91,14 @@ public class Menu : MonoBehaviour
 
         }
     }
-    
+    public void Fail()
+    {
+
+        if (failPanel != null)
+        {         
+            failPanel.SetActive(true);
+        }
+    }
     public void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

@@ -44,7 +44,6 @@ public class EnemyLife : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        Debug.Log(isAttacking);
         if (currentHP > 1 && !isAttacking && !isSummoning)
         {
                 anim.SetTrigger("isTakeHit");     

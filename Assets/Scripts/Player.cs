@@ -4,16 +4,23 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player Instance { get; private set; }
     private float playerHP = 100f;
     private float playerDamage = 10f;
     private float playerSpeed = 5f;
-    public float maxPlayerHP { get; private set;} = 300f;
-    public float maxPlayerDamage { get; private set; } = 50f;
-    public float maxPlayerSpeed { get; private set; } = 10f;
+    public static float maxPlayerHP { get; private set;} = 300f;
+    public static float maxPlayerDamage { get; private set; } = 50f;
+    public static float maxPlayerSpeed { get; private set; } = 10f;
     public float coin { get; private set; }
+    private void Awake()
+    {
+        if(Instance == null ) Instance = this;
+    }
     private void Start()
     {
         LoadPlayerData();
+        
+       
     }
     //public Player(float playerHP, float playerDamage, float playerSpeed, float maxPlayerHP, float maxPlayerDamage, float maxPlayerSpeed, float coin)
     //{

@@ -1964,8 +1964,8 @@ GameObject:
   - component: {fileID: 270120674}
   - component: {fileID: 270120673}
   - component: {fileID: 270120678}
-  - component: {fileID: 270120677}
   - component: {fileID: 270120679}
+  - component: {fileID: 270120680}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2056,18 +2056,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &270120677
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 270120672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aae98ef5f96b32a478875b7df60e8a1e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &270120678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2106,6 +2094,18 @@ MonoBehaviour:
   musicSlider: {fileID: 1981794799}
   sfxSlider: {fileID: 2135683748}
   fullScreenToggle: {fileID: 1279194689}
+--- !u!114 &270120680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270120672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aae98ef5f96b32a478875b7df60e8a1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &283669301
 GameObject:
   m_ObjectHideFlags: 0
@@ -8802,11 +8802,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   musicSounds:
-  - name: Theme
+  - name: Theme0
     clip: {fileID: 8300000, guid: 75fcfaa69193d614da8d273b18d4c8e2, type: 3}
+  - name: Theme1
+    clip: {fileID: 8300000, guid: 47f45ef7b5767674393cc401fc325705, type: 3}
+  - name: Theme2
+    clip: {fileID: 0}
+  - name: Theme3
+    clip: {fileID: 0}
   sfxSounds:
   - name: Click Button
     clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - name: Attack
+    clip: {fileID: 8300000, guid: fe0b1f9aeb45b41b089175aeeabd5d95, type: 3}
+  - name: Jump
+    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - name: Dash
+    clip: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
+  - name: Hurt
+    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - name: Death
+    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - name: Collect
+    clip: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
+  - name: Checkpoint
+    clip: {fileID: 8300000, guid: 79180f511d89441b9aa23ccae1992fe0, type: 3}
   musicSource: {fileID: 1141031740}
   sfxSource: {fileID: 1322864858}
 --- !u!224 &1677999173

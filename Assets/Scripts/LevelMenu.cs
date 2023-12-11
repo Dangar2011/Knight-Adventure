@@ -24,7 +24,7 @@ public class LevelMenu : MonoBehaviour
                 {
                     buttonText.gameObject.SetActive(true);
                 float score = PlayerPrefs.GetFloat("HighScore" + (i + 1));
-                buttonText.text = "High Score  " + score.ToString();
+                buttonText.text = "High Score\n" + score.ToString();
                 }
             }
             else

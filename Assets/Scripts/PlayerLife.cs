@@ -4,7 +4,6 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 public class PlayerLife : MonoBehaviour
 {
-    [SerializeField] private AudioSource deathSound;
     [SerializeField] private float invicibilityTime = 0.35f;
     [SerializeField] private float bounceBack = 5f;
     [SerializeField] private float respawnTime = 2f;
@@ -21,6 +20,7 @@ public class PlayerLife : MonoBehaviour
     private bool isDead = false;
     private float flashDuration;
     public  static int enemyPosition;
+    public static bool isFail = false;
     private void Start()
     {
         anim = GetComponent<Animator>();
@@ -32,7 +32,7 @@ public class PlayerLife : MonoBehaviour
         currentHP = playerHP;
         flashDuration = invicibilityTime;
         currentLife = life;
-        
+        isFail = false;
     }
     private void Update()
     {
@@ -50,13 +50,7 @@ public class PlayerLife : MonoBehaviour
         }
 
     }
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.gameObject.CompareTag("Checkpoint"))
-        {
-           
-        }
-    }
+
     private IEnumerator Die()
     {
         playerMovement.canMove = false;
@@ -66,7 +60,7 @@ public class PlayerLife : MonoBehaviour
         if (currentLife == 0)
         {
             yield return new WaitForSeconds(1f);
-            LevelFail();
+            isFail = true;
 
         }
         else
@@ -138,17 +132,9 @@ public class PlayerLife : MonoBehaviour
     {
         return life;
     }
-    //public void GetEnemySide(int value)
-    //{
-    //    enemyPosition = value;
-    //}
     public void UpdateCheckpoint(Vector2 checkpointPosition)
     {
         respawnPosition = checkpointPosition;
-    }
-    private void LevelFail()
-    {
-        Debug.Log("fail");
     }
     public void Heal(float value = 20f)
     {

@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
-    public static AudioManager Instance;
+    public static AudioManager Instance {get; private set;}
     public Sound[] musicSounds, sfxSounds;
     public AudioSource musicSource, sfxSource;
 
@@ -21,15 +21,16 @@ public class AudioManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        PlayMusic("Theme");
+        
+        PlayMusic("Theme0");
     }
    
     public void PlayMusic(string name)
     {
         Sound sound = Array.Find(musicSounds, sound => sound.name == name);
         if (sound != null)
-        {
-            musicSource.clip = sound.clip;
+        {          
+            musicSource.clip = sound.clip;                
             musicSource.Play();
         }
         else
@@ -41,8 +42,7 @@ public class AudioManager : MonoBehaviour
     {
         Sound sound = Array.Find(sfxSounds, sound => sound.name == name);
         if (sound != null)
-        {
-
+        {           
             sfxSource.PlayOneShot(sound.clip);
         }
         else

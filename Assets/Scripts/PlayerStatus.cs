@@ -7,7 +7,6 @@ using TMPro;
 public class PlayerStatus : MonoBehaviour
 {
     // Start is called before the first frame update
-    private Player player;
     [SerializeField] private Image currentHP;
     [SerializeField] private Image currentSpeed;
     [SerializeField] private Image currentDamage;
@@ -18,59 +17,84 @@ public class PlayerStatus : MonoBehaviour
     private float coinToUpHP = 10f;
     private float coinToUpSpeed = 10f;
     private float coinToUpDamage = 10f;
+
     public TextMeshProUGUI coinText;
     public TextMeshProUGUI coinToUpHPText;
     public TextMeshProUGUI coinToUpSpeedText;
     public TextMeshProUGUI coinToUpDamageText;
+
     public Button upgradeHP;
     public Button upgradeSpeed;
     public Button upgradeDamage;
     void Start()
-    { 
+    {
+        //GetCoinToUp();
+        //player = GetComponent<Player>();    
+
+        //coinToUpHPText.text = coinToUpHP.ToString();
+        //coinToUpSpeedText.text = coinToUpSpeed.ToString();
+        //coinToUpDamageText.text = coinToUpDamage.ToString();
+
+        //currentHP.fillAmount = (player.GetPlayerHP() - initialHP) / (player.maxPlayerHP - initialHP);
+        //currentSpeed.fillAmount = (player.GetPlayerSpeed() - initialSpeed) / (player.maxPlayerSpeed - initialSpeed);
+        //currentDamage.fillAmount = (player.GetPlayerDamage() - initialDamage) / (player.maxPlayerDamage - initialDamage);
         GetCoinToUp();
-        player = GetComponent<Player>();    
-
-        coinToUpHPText.text = coinToUpHP.ToString();
-        coinToUpSpeedText.text = coinToUpSpeed.ToString();
-        coinToUpDamageText.text = coinToUpDamage.ToString();
-
-        currentHP.fillAmount = (player.GetPlayerHP() - initialHP) / (player.maxPlayerHP - initialHP);
-        currentSpeed.fillAmount = (player.GetPlayerSpeed() - initialSpeed) / (player.maxPlayerSpeed - initialSpeed);
-        currentDamage.fillAmount = (player.GetPlayerDamage() - initialDamage) / (player.maxPlayerDamage - initialDamage);
+        SetPlayerStats();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (player.GetPlayerCoin() < coinToUpHP) upgradeHP.interactable = false;
-        else if (player.GetPlayerHP() == player.maxPlayerHP)
+        UpdateUI();
+       
+        
+    }
+    private void UpdateUI()
+    {
+        if (Player.Instance.GetPlayerCoin() < coinToUpHP) upgradeHP.interactable = false;
+        else if (Player.Instance.GetPlayerHP() == Player.maxPlayerHP)
         {
             upgradeHP.interactable = false;
             coinToUpHPText.text = "MAX";
         }
         else upgradeHP.interactable = true;
-        if (player.GetPlayerCoin() < coinToUpSpeed ) upgradeSpeed.interactable = false;
-        else if (player.GetPlayerSpeed() == player.maxPlayerSpeed)
+
+        if (Player.Instance.GetPlayerCoin() < coinToUpSpeed) upgradeSpeed.interactable = false;
+        else if (Player.Instance.GetPlayerSpeed() == Player.maxPlayerSpeed)
         {
             upgradeSpeed.interactable = false;
             coinToUpSpeedText.text = "MAX";
         }
         else upgradeSpeed.interactable = true;
-        if (player.GetPlayerCoin() < coinToUpDamage) upgradeDamage.interactable = false;
-        else if (player.GetPlayerDamage() == player.maxPlayerDamage)
+
+        if (Player.Instance.GetPlayerCoin() < coinToUpDamage) upgradeDamage.interactable = false;
+        else if (Player.Instance.GetPlayerDamage() == Player.maxPlayerDamage)
         {
             upgradeDamage.interactable = false;
             coinToUpDamageText.text = "MAX";
         }
         else upgradeDamage.interactable = true;
-        currentCoin = player.GetPlayerCoin();
-        coinText.text = currentCoin.ToString();
-        
-    }
 
+        currentCoin = Player.Instance.GetPlayerCoin();
+        coinText.text = currentCoin.ToString();
+    }
+    private void SetPlayerStats()
+    {
+        coinToUpHPText.text = coinToUpHP.ToString();
+        coinToUpSpeedText.text = coinToUpSpeed.ToString();
+        coinToUpDamageText.text = coinToUpDamage.ToString();
+
+        currentHP.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerHP(), Player.maxPlayerHP, initialHP);
+        currentSpeed.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerSpeed(), Player.maxPlayerSpeed, initialSpeed);
+        currentDamage.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerDamage(), Player.maxPlayerDamage, initialDamage);
+    }
+    private float CalculateFillAmount(float currentValue, float maxValue, float initialValue)
+    {
+        return (currentValue - initialValue) / (maxValue - initialValue);
+    }
     public void Cheat()
     {
-        player.SetPlayerCoin(100);
+                    Player.Instance.SetPlayerCoin(100);
     }
     public void DeleteAllKey()
     {
@@ -86,37 +110,37 @@ public class PlayerStatus : MonoBehaviour
     }
     public void UpgradeHP()
     {
-        if(player.GetPlayerCoin() >= coinToUpHP)
+        if(Player.Instance.GetPlayerCoin() >= coinToUpHP)
         {
-            player.SetPlayerCoin(-coinToUpHP);
+            Player.Instance.SetPlayerCoin(-coinToUpHP);
             coinToUpHP = Mathf.Clamp(coinToUpHP + 5, 0, 30);
             coinToUpHPText.text = coinToUpHP.ToString();
-            player.SetPlayerHP();
-            currentHP.fillAmount = ((player.GetPlayerHP() - initialHP) / (player.maxPlayerHP - initialHP));
+            Player.Instance.SetPlayerHP();
+            currentHP.fillAmount = ((Player.Instance.GetPlayerHP() - initialHP) / (Player.maxPlayerHP - initialHP));
             SetCoinToUp();
         }
     }
     public void UpgradeSpeed()
     {
-        if (player.GetPlayerCoin() >= coinToUpSpeed)
+        if (Player.Instance.GetPlayerCoin() >= coinToUpSpeed)
         {
-            player.SetPlayerCoin(-coinToUpSpeed);
+            Player.Instance.SetPlayerCoin(-coinToUpSpeed);
             coinToUpSpeed = Mathf.Clamp(coinToUpSpeed + 5, 0,30);
             coinToUpSpeedText.text = coinToUpSpeed.ToString();
-            player.SetPlayerSpeed();
-            currentSpeed.fillAmount = (player.GetPlayerSpeed() - initialSpeed) / (player.maxPlayerSpeed - initialSpeed);
+            Player.Instance.SetPlayerSpeed();
+            currentSpeed.fillAmount = (Player.Instance.GetPlayerSpeed() - initialSpeed) / (Player.maxPlayerSpeed - initialSpeed);
             SetCoinToUp();
         }
     }
     public void UpgradeDamage()
     {
-        if (player.GetPlayerCoin() >= coinToUpDamage)
+        if (Player.Instance.GetPlayerCoin() >= coinToUpDamage)
         {
-            player.SetPlayerCoin(-coinToUpDamage);
+            Player.Instance.SetPlayerCoin(-coinToUpDamage);
             coinToUpDamage = Mathf.Clamp(coinToUpDamage + 5, 0, 30);
             coinToUpDamageText.text = coinToUpDamage.ToString();
-            player.SetPlayerDamage();
-            currentDamage.fillAmount = (player.GetPlayerDamage() - initialDamage) / (player.maxPlayerDamage - initialDamage);
+            Player.Instance.SetPlayerDamage();
+            currentDamage.fillAmount = (Player.Instance.GetPlayerDamage() - initialDamage) / (Player.maxPlayerDamage - initialDamage);
             SetCoinToUp();
         }
     }
