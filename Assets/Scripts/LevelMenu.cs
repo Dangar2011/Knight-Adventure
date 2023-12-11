@@ -11,7 +11,8 @@ public class LevelMenu : MonoBehaviour
     public Sprite unlocked;
     private void Start()
     {
-        int unlockLevel = PlayerPrefs.GetInt("UnlockLevel", 1);
+        int unlockLevel = PlayerPrefs.GetInt("UnlockedLevel", 1);
+        Debug.Log(unlockLevel);
         for (int i = 0; i < buttons.Length; i++)
         {
             Text buttonText = buttons[i].GetComponentInChildren<Text>();
@@ -22,6 +23,8 @@ public class LevelMenu : MonoBehaviour
                 if (buttonText != null)
                 {
                     buttonText.gameObject.SetActive(true);
+                float score = PlayerPrefs.GetFloat("HighScore" + (i + 1));
+                buttonText.text = "High Score  " + score.ToString();
                 }
             }
             else

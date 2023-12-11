@@ -19,10 +19,8 @@ public class Checkpoint : MonoBehaviour
             {
                 player.UpdateCheckpoint(transform.position);
             }
-            //checkSound.Play();
+            AudioManager.Instance.PlaySFX("Checkpoint");
             isChecked = true;
-            
-            //anim.SetBool("IsChecked", true);
 
         };
 

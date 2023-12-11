@@ -30,8 +30,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float dashDuration = 0.5f;
     public float playerMP { get; private set; } = 100f;
     [SerializeField] private float MPRecoverySpeed = 5;
-    [Header("Skill")]
-
 
     private MovementState state;
     private bool isGrounded;
@@ -40,10 +38,10 @@ public class PlayerMovement : MonoBehaviour
     private float directX;  
 
     private bool isJumping;
-    private bool isAttacking = false;
+    public static bool isAttacking = false;
+    public static bool isDashing = false;
     private float attack = 0f;
     private float dash = 0f;
-    private bool isDashing = false;
     public int facingDirection = 1;
     public bool canMove = true;
     public float currentMP;
@@ -123,7 +121,8 @@ public class PlayerMovement : MonoBehaviour
     private IEnumerator Attack()
     {
         if(attackDuration <= 0f)
-        {            
+        {
+            AudioManager.Instance.PlaySFX("Attack");
             isAttacking = true;
             anim.SetTrigger("isAttack");
             attackDuration = attack;
@@ -152,9 +151,9 @@ public class PlayerMovement : MonoBehaviour
     {      
         if(dashDuration <= 0f)
         {
+            AudioManager.Instance.PlaySFX("Dash");
             currentMP =  Mathf.Clamp(currentMP - 25, 0, playerMP);           
-            isDashing = true;
-            
+            isDashing = true;            
             float originalGravity = rb.gravityScale;
             rb.gravityScale = 0f;
             float dashVelocity = dashSpeed * facingDirection;

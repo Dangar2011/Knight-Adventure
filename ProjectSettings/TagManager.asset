@@ -9,6 +9,9 @@ TagManager:
   - Checkpoint
   - Enemy
   - Death Zone
+  - Coin
+  - Fruit
+  - Heart
   layers:
   - Default
   - TransparentFX

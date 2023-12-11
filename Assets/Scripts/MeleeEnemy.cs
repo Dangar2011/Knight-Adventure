@@ -8,6 +8,7 @@ public class MeleeEnemy : MonoBehaviour
     private Animator anim;
     private PlayerLife playerLife;
     private EnemyMovement enemyMovement;
+    private EnemyLife enemyLife;
     [SerializeField]private BoxCollider2D coll;
     [SerializeField] private float attackDuration = 1f;
     [SerializeField] private LayerMask playerLayer;
@@ -15,7 +16,6 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private int damage = 20;
 
     private float coolDown;
-    private int enemySide = 1;
     private bool isAttacking = false;
     private bool isSummoning = false;
     void Start()
@@ -24,15 +24,16 @@ public class MeleeEnemy : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         enemyMovement = GetComponentInParent<EnemyMovement>();
+        enemyLife = GetComponentInParent<EnemyLife>();
     }
 
     // Update is called once per frame
     void Update()
     {
+            enemyLife.isAttacking = isAttacking;
+            isSummoning = enemyLife.isSummoning;
         if(enemyMovement != null)
         {
-            EnemyLife.isAttacking = isAttacking;
-            isSummoning = EnemyLife.isSummoning;
             enemyMovement.enabled = !PlayerInsight();
             if (!isAttacking && !isSummoning)
             {
@@ -97,7 +98,6 @@ public class MeleeEnemy : MonoBehaviour
             {
                 PlayerLife.enemyPosition = -1;
             }
-           // playerLife.GetEnemySide(enemySide);
             StartCoroutine(playerLife.TakeDamage(damage));
         }       
 

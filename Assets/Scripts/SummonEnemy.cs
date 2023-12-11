@@ -9,6 +9,7 @@ public class SummonEnemy : MonoBehaviour
     private Animator anim;
     public GameObject summonPosition;
     public GameObject player;
+    private EnemyLife enemyLife;
     [SerializeField] private GameObject summon;
     [SerializeField] private BoxCollider2D coll;
     [SerializeField] private LayerMask playerLayer;
@@ -16,15 +17,17 @@ public class SummonEnemy : MonoBehaviour
     [SerializeField] private float summonRange = 5f;
     public float heightSummon = 10f;
     private bool isSummoning = false;
+    private bool isAttacking = false;
     private float coolDown;
     void Start()
     {
         coolDown = summonDuration;
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
-        //enemyMovement = GetComponentInParent<EnemyMovement>();
+        enemyLife = GetComponentInParent<EnemyLife>();
         player = GameObject.FindGameObjectWithTag("Player");
         summonPosition = transform.GetChild(0).gameObject;
+        
     }
 
     void Update()
@@ -32,12 +35,14 @@ public class SummonEnemy : MonoBehaviour
        
 
         coolDown -=Time.deltaTime;
-        EnemyLife.isSummoning= isSummoning;      
+        enemyLife.isSummoning= isSummoning;
+        isAttacking = enemyLife.isAttacking;
+
         if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
             Vector3 playerHeadPosition = player.transform.position + Vector3.up * heightSummon; 
             summonPosition.transform.position = playerHeadPosition;
-            if (coolDown < 0 && !EnemyLife.isAttacking)
+            if (coolDown < 0 && !enemyLife.isAttacking)
             {
                 isSummoning = true;
                 anim.SetTrigger("isSummon");
@@ -58,10 +63,6 @@ public class SummonEnemy : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.BoxCast(coll.bounds.center + transform.right * summonRange * transform.localScale.x,
             new Vector3(coll.bounds.size.x * summonRange, coll.bounds.size.y, coll.bounds.size.z), 0.1f, Vector2.right, 0, playerLayer);
-        //if (hit.collider != null)
-        //{
-        //    playerLife = hit.transform.GetComponent<PlayerLife>();
-        //}
         return hit.collider != null;
     }
     private void OnDrawGizmos()

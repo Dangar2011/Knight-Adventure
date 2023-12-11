@@ -17,15 +17,17 @@ public class FinishPoint : MonoBehaviour
     void Start()
     {
         anim = GetComponent<Animator>();
+        coin = 0;
+        isDone = false;
+        isFinish = false;
     }
 
     void Update()
     {
         coinText.text = coin.ToString();
-        Debug.Log(EnemyCount.enemyCount);
         if(!isOpenGate )
         {
-            if(EnemyCount.enemyCount == 0)
+            if(EnemyCount.enemyCount == 0 )
             {
             isOpenGate = true;
             OpenGate();
@@ -34,11 +36,19 @@ public class FinishPoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-            Debug.Log((SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel")));
+        Debug.Log(("buildIndex: "+SceneManager.GetActiveScene().buildIndex));
+        Debug.Log(("UnlockLevel: "+PlayerPrefs.GetInt("UnlockedLevel")));
+        Debug.Log((SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel")));
         if(EnemyCount.enemyCount == 0)
         {
             isDone = true;
             float currentCoin = PlayerPrefs.GetFloat("PlayerCoin");
+            float level = SceneManager.GetActiveScene().buildIndex;
+            float highScore = PlayerPrefs.GetFloat("HighScore" + level);
+            if(Score.score > highScore)
+            {
+                PlayerPrefs.SetFloat("HighScore" + level, Score.score);
+            }
             PlayerPrefs.SetFloat("PlayerCoin", currentCoin + coin);
             PlayerPrefs.Save();
             CompleteLevel();

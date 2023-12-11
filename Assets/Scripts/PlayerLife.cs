@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -14,7 +13,6 @@ public class PlayerLife : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Vector2 respawnPosition;
-    private TextMeshProUGUI hpText;
 
     private int life = 3;
     private float playerHP;
@@ -48,7 +46,7 @@ public class PlayerLife : MonoBehaviour
         if (collision.gameObject.CompareTag("Death Zone"))
         {
             rb.bodyType = RigidbodyType2D.Static;
-            Die();
+            StartCoroutine( Die());
         }
 
     }
@@ -154,10 +152,10 @@ public class PlayerLife : MonoBehaviour
     }
     public void Heal(float value = 20f)
     {
-        currentHP += value;
+        currentHP = Mathf.Clamp(currentHP + value, 0, playerHP);
     }
     public void CollectHeart()
     {
-        currentLife++;
+        currentLife = Mathf.Clamp(currentLife + 1, 0, 3);
     }
 }

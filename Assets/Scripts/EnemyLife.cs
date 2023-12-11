@@ -7,8 +7,8 @@ public class EnemyLife : MonoBehaviour
     private Animator anim;
     private EnemyMovement enemyMovement;
 
-    public static bool isAttacking = false;
-    public static bool isSummoning = false;
+    public  bool isAttacking = false;
+    public  bool isSummoning = false;
     public float currentHP { get; private set; } = 100;   
     public float enemyCoin { get; private set; } = 1f;
     public bool isDead = false;

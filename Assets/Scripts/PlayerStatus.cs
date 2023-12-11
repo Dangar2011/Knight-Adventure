@@ -70,7 +70,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void Cheat()
     {
-        player.SetPlayerCoin(1000);
+        player.SetPlayerCoin(100);
     }
     public void DeleteAllKey()
     {
