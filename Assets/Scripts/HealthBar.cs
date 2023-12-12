@@ -11,18 +11,18 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Image staminaBar;
     [SerializeField] private Image lifeBar;
     private PlayerMovement playerMovement;
-    private Player player;
+    //private Player player;
 
     void Start()
     {
         playerMovement = playerLife.GetComponent<PlayerMovement>();
-        player = playerLife.GetComponent<Player>();
+        //player = playerLife.GetComponent<Player>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        healthBar.fillAmount = playerLife.currentHP / player.GetPlayerHP();
+        healthBar.fillAmount = playerLife.currentHP / Player.Instance.GetPlayerHP();
         staminaBar.fillAmount = playerMovement.currentMP / playerMovement.playerMP;
         lifeBar.fillAmount = (float)playerLife.currentLife / (float)playerLife.GetLife();
 

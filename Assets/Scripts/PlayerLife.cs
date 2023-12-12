@@ -27,7 +27,7 @@ public class PlayerLife : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         playerMovement = GetComponent<PlayerMovement>();
         sprite = GetComponent<SpriteRenderer>();
-        playerHP = GetComponent<Player>().GetPlayerHP();
+        playerHP = Player.Instance.GetPlayerHP();
         respawnPosition = transform.position;
         currentHP = playerHP;
         flashDuration = invicibilityTime;

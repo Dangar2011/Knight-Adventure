@@ -500,7 +500,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963732771}
+      - m_Target: {fileID: 270120681}
         m_TargetAssemblyTypeName: LevelMenu, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 3
@@ -1565,7 +1565,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963732771}
+      - m_Target: {fileID: 270120681}
         m_TargetAssemblyTypeName: LevelMenu, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 3
@@ -1966,6 +1966,7 @@ GameObject:
   - component: {fileID: 270120678}
   - component: {fileID: 270120679}
   - component: {fileID: 270120680}
+  - component: {fileID: 270120681}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2091,6 +2092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   victoryPanel: {fileID: 0}
+  failPanel: {fileID: 0}
   musicSlider: {fileID: 1981794799}
   sfxSlider: {fileID: 2135683748}
   fullScreenToggle: {fileID: 1279194689}
@@ -2106,6 +2108,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aae98ef5f96b32a478875b7df60e8a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &270120681
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270120672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd22472cc317ece40997c95737090dc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttons:
+  - {fileID: 344930491}
+  - {fileID: 224237552}
+  - {fileID: 55695818}
+  locked: {fileID: 1396581267, guid: 26155c22a22ab2c42a35d3c1d44b9222, type: 3}
+  unlocked: {fileID: -1107339584, guid: 26155c22a22ab2c42a35d3c1d44b9222, type: 3}
 --- !u!1 &283669301
 GameObject:
   m_ObjectHideFlags: 0
@@ -2553,7 +2573,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1963732771}
+      - m_Target: {fileID: 270120681}
         m_TargetAssemblyTypeName: LevelMenu, Assembly-CSharp
         m_MethodName: OpenLevel
         m_Mode: 3
@@ -10399,7 +10419,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1963732770}
   - component: {fileID: 1963732772}
-  - component: {fileID: 1963732771}
   m_Layer: 5
   m_Name: Stage Menu
   m_TagString: Untagged
@@ -10429,24 +10448,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0.0000076293945}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1963732771
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1963732769}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd22472cc317ece40997c95737090dc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttons:
-  - {fileID: 344930491}
-  - {fileID: 224237552}
-  - {fileID: 55695818}
-  locked: {fileID: 1396581267, guid: 26155c22a22ab2c42a35d3c1d44b9222, type: 3}
-  unlocked: {fileID: -1107339584, guid: 26155c22a22ab2c42a35d3c1d44b9222, type: 3}
 --- !u!114 &1963732772
 MonoBehaviour:
   m_ObjectHideFlags: 0

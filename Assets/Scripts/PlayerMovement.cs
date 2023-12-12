@@ -64,6 +64,8 @@ public class PlayerMovement : MonoBehaviour
         currentMP = playerMP;
         attackDuration = 0;
         dashDuration = 0;
+        isAttacking = false;
+        isDashing = false;
     }
 
     // Update is called once per frame
@@ -71,7 +73,6 @@ public class PlayerMovement : MonoBehaviour
     {
         if (!GetComponent<PlayerLife>().IsDead() && !isDashing && !isAttacking)
         {
-            //Debug.Log(canMove);
             if (directX > 0f)
             {
                 isFacingRight = true;
@@ -87,11 +88,10 @@ public class PlayerMovement : MonoBehaviour
         directX = Input.GetAxisRaw("Horizontal");
         isGrounded = IsGrounded();
 
-
         attackDuration = Mathf.Clamp(attackDuration - Time.deltaTime, 0f,attack);      
-        if (attackDuration > 0 )attackBackground.fillAmount = attackDuration / attack;
+        //if (attackDuration > 0 )attackBackground.fillAmount = attackDuration / attack;
         dashDuration = Mathf.Clamp(dashDuration - Time.deltaTime, 0f,dash);
-        if (dashDuration > 0) dashBackground.fillAmount = dashDuration / dash;
+        //if (dashDuration > 0) dashBackground.fillAmount = dashDuration / dash;
 
         if (!isDashing)
         {

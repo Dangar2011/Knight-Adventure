@@ -14,13 +14,8 @@ public class Player : MonoBehaviour
     public float coin { get; private set; }
     private void Awake()
     {
-        if(Instance == null ) Instance = this;
-    }
-    private void Start()
-    {
         LoadPlayerData();
-        
-       
+        if (Instance == null ) Instance = this;
     }
     //public Player(float playerHP, float playerDamage, float playerSpeed, float maxPlayerHP, float maxPlayerDamage, float maxPlayerSpeed, float coin)
     //{
