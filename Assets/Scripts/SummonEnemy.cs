@@ -8,7 +8,7 @@ public class SummonEnemy : MonoBehaviour
    // private EnemyMovement enemyMovement;
     private Animator anim;
     public GameObject summonPosition;
-    public GameObject player;
+    private GameObject player;
     private EnemyLife enemyLife;
     [SerializeField] private GameObject summon;
     [SerializeField] private BoxCollider2D coll;

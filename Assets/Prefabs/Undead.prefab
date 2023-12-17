@@ -145,8 +145,6 @@ MonoBehaviour:
   enemy: {fileID: 7619825603540579641}
   speed: 2
   idleDuration: 5
-  isAttacking: 0
-  isSummoning: 0
 --- !u!1 &7479634960742437317
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,7 +318,11 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
   attackRange: 2
+  findPlayerRange: 7
   damage: 20
 --- !u!114 &1239952069754390482
 MonoBehaviour:
@@ -335,6 +337,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHP: 100
+  isAttacking: 0
+  isSummoning: 0
   isDead: 0
 --- !u!114 &2307776305672383554
 MonoBehaviour:
@@ -349,7 +353,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   summonPosition: {fileID: 2230396601665534576}
-  player: {fileID: 0}
   summon: {fileID: 1152787046539263298, guid: d2bfe8367582ac1498b2d343902a0442, type: 3}
   coll: {fileID: 7740221873460897946}
   playerLayer:

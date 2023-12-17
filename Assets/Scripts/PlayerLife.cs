@@ -82,8 +82,8 @@ public class PlayerLife : MonoBehaviour
                 playerMovement.canMove = false;
                 rb.velocity = new Vector2(enemyPosition * bounceBack, bounceBack * 1.7f);
                 invicibilityTime = flashDuration;
-                yield return new WaitForSeconds(0.3f);
                 playerMovement.canMove = true;
+                yield return null;
             }
             else
             {
