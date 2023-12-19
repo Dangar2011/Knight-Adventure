@@ -5,36 +5,39 @@ using UnityEngine.EventSystems;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] private Transform left;
-    [SerializeField] private Transform right;
+    //[SerializeField] private Transform left;
+    //[SerializeField] private Transform right;
     [SerializeField] private Transform enemy;
     [SerializeField] private float speed;
-    [SerializeField] private float idleDuration = 1.5f;
+    [SerializeField] private float idle = 1.5f;
     private Animator anim;
     private Vector3 initialScale;
     private EnemyLife enemyLife;
     private MovementState state;
     private bool findPlayer = false;
-    private bool isMovingRight = true;
-    private float idle;
+    //private bool isMovingRight = true;
+    //private float idle;
     private float initialSpeed;
+    private bool isMove = true;
+
+    [SerializeField] private GameObject[] waypoints;
+    private int currentWaypoint = 0;
     private enum MovementState
     {
         idle, running
     }
     void Start()
-    {        
+    {
         initialScale = enemy.localScale;
         anim = enemy.GetComponent<Animator>();
-        enemyLife = enemy.GetComponent<EnemyLife>();
-        idle = idleDuration;
+        enemyLife = enemy.GetComponent<EnemyLife>();       
         initialSpeed = speed;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (enemy.GetComponent<EnemyLife>().IsDead())
+        if (enemy.GetComponent<EnemyLife>().IsDead() || enemyLife.isAttacking || enemyLife.isSummoning)
         {
             speed = 0;
         }
@@ -45,47 +48,88 @@ public class EnemyMovement : MonoBehaviour
         else
         {
             speed = initialSpeed;
-        //}
-        //if (findPlayer)
-        //{
+            //}
+            //if (findPlayer)
+            //{
 
-        //}
-        //else
-        //{
-            if (isMovingRight)
-            {
-                if (enemy.position.x <= right.position.x)
-                    Move(1);
-                else
-                    ChangeDirect();
-            }
-            else
-            {
-                if (enemy.position.x >= left.position.x)
-                    Move(-1);
-                else
-                    ChangeDirect();
-            }
+            //}
+            //else
+            //{
+            //if (isMovingRight)
+            //{
+            //    if (enemy.position.x <= right.position.x)
+            //        Move(1);
+            //    else
+            //        ChangeDirect();
+            //}
+            //else
+            //{
+            //    if (enemy.position.x >= left.position.x)
+            //        Move(-1);
+            //    else
+            //        ChangeDirect();
+            //}
+            MoveToPoint();
         }
+
         anim.SetInteger("state", (int)state);
     }
-    private void ChangeDirect()
+    private IEnumerator ChangeDirect()
     {
+        isMove = false;
         state = MovementState.idle;
-        idle -= Time.deltaTime;
-        if (idle < 0)
-            isMovingRight = !isMovingRight;
+        //idle -= Time.deltaTime;
+        yield return new WaitForSeconds(idle);
+        currentWaypoint++;
+        isMove = true;
+        //    isMovingRight = !isMovingRight;
     }
-    private void Move(int directX)
+    private void MoveToPoint()
     {
-        idle = idleDuration;
-        state = MovementState.running;
+        
+        if (currentWaypoint >= waypoints.Length)
+        {
+            currentWaypoint = 0;
+        }
+        if (enemy.position.x < waypoints[currentWaypoint].transform.position.x)
+        {
+            enemy.localScale = new Vector3(initialScale.x, initialScale.y, initialScale.z); ;
+        }
+        else
+        {
+            enemy.localScale = new Vector3(-initialScale.x, initialScale.y, initialScale.z); ;
+        }
 
-        enemy.localScale = new Vector3(directX * initialScale.x, initialScale.y, initialScale.z);
+        if (Vector2.Distance(waypoints[currentWaypoint].transform.position, enemy.position) < .1f)
+        {
+            if (isMove)
+            {
+               StartCoroutine(ChangeDirect());                
+            }
+        }
 
-        enemy.position = new Vector3(enemy.position.x + Time.deltaTime * directX * speed,
-            enemy.position.y, enemy.position.z);
+        if (currentWaypoint >= waypoints.Length)
+        {
+            currentWaypoint = 0;
+        }
+       
+       
+        if (isMove)
+        {
+            state = MovementState.running;
+            enemy.position = Vector2.MoveTowards(enemy.position, waypoints[currentWaypoint].transform.position, Time.deltaTime * speed);
+        }
     }
+    //private void Move(int directX)
+    //{
+    //    idle = idleDuration;
+    //    state = MovementState.running;
+
+    //    enemy.localScale = new Vector3(directX * initialScale.x, initialScale.y, initialScale.z);
+
+    //    enemy.position = new Vector3(enemy.position.x + Time.deltaTime * directX * speed,
+    //        enemy.position.y, enemy.position.z);
+    //}
     public void PlayerNotFound()
     {
         findPlayer = false;
@@ -99,7 +143,7 @@ public class EnemyMovement : MonoBehaviour
         {
             Vector3 targetPosition = player.transform.position;
 
-            Vector3 targetPositionHorizontal = new Vector3(targetPosition.x - 3f * enemy.localScale.x, enemy.position.y, enemy.position.z);
+            Vector3 targetPositionHorizontal = new Vector3(targetPosition.x - 2f * enemy.localScale.x, enemy.position.y, enemy.position.z);
 
             float distanceToTarget = Vector3.Distance(enemy.position, targetPositionHorizontal);
 

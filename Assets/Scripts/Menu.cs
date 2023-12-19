@@ -53,6 +53,31 @@ public class Menu : MonoBehaviour
             isFail = true;
             Fail();
         }
+        
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                PauseGame();
+                Debug.Log(transform.Find("Pause Menu").name);
+                transform.Find("Pause Menu").gameObject.SetActive(true);
+            }
+            if (transform.Find("Pause Menu").gameObject.activeSelf == true)
+            {
+                if (Input.GetKeyDown(KeyCode.Escape))
+                {
+                    ResumeGame();
+                    transform.Find("Pause Menu").gameObject.SetActive(false);
+                }
+                if (Input.GetKeyDown(KeyCode.M)){
+                    OpenMainMenu();
+                }
+                if (!Input.GetKeyDown(KeyCode.BackQuote))
+                {
+                    RestartGame();
+                }
+            }
+        }
     }
     public void ApplicationQuit()
     {

@@ -107,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {   
                     Jump();                
-            }else if (Input.GetMouseButtonDown(0))
+            }else if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L))
             {
                 StartCoroutine(Attack());
             }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 25)
