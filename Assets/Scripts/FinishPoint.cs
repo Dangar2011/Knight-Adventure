@@ -9,7 +9,7 @@ public class FinishPoint : MonoBehaviour
 
     public static float coin = 0;
     public TextMeshProUGUI coinText;
-    public Transform enemy; 
+   // public Transform enemy; 
     private Animator anim;
     public static bool isFinish = false;
     private bool isOpenGate;
@@ -42,6 +42,8 @@ public class FinishPoint : MonoBehaviour
         if(EnemyCount.enemyCount == 0)
         {
             isDone = true;
+            AudioManager.Instance.musicSource.Stop();
+            AudioManager.Instance.PlaySFX("Victory");
             float currentCoin = PlayerPrefs.GetFloat("PlayerCoin");
             float level = SceneManager.GetActiveScene().buildIndex;
             float highScore = PlayerPrefs.GetFloat("HighScore" + level);

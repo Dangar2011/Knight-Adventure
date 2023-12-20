@@ -16,9 +16,15 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private float findPlayerRange;
     [SerializeField] private int damage = 20;
+    [SerializeField] private float startPosition = 2f;
+
+    [SerializeField] private bool hasShield = false;
+        [SerializeField] private float coolDownShield = 10f;
+        [SerializeField] private float shieldTime = 3f;
     private float coolDown;
     private bool isAttacking = false;
     private bool isSummoning = false;
+    private bool isShielded = false;
     void Start()
     {
         coolDown = attackDuration;
@@ -26,14 +32,33 @@ public class MeleeEnemy : MonoBehaviour
         anim = GetComponent<Animator>();
         enemyMovement = GetComponentInParent<EnemyMovement>();
         enemyLife = GetComponentInParent<EnemyLife>();
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-            enemyLife.isAttacking = isAttacking;
-            isSummoning = enemyLife.isSummoning;
-        if(enemyMovement != null)
+        enemyLife.isAttacking = isAttacking;
+        isSummoning = enemyLife.isSummoning;
+
+        if (hasShield)
+        {
+            coolDownShield -= Time.deltaTime;
+            enemyLife.isShielded = isShielded;
+            if(isShielded)
+            {
+                anim.SetBool("isShield", true);
+                shieldTime -= Time.deltaTime;
+                if (shieldTime < 0)
+                {
+                    isShielded = false;
+                    anim.SetBool("isShield", false);
+                    coolDownShield = 10f;
+                    shieldTime = 3f;
+                }
+            }
+        }
+        if (enemyMovement != null)
         {
             enemyMovement.enabled = !PlayerInsight();
             if (FindPlayer() && !isAttacking && !isSummoning && !PlayerInsight())
@@ -60,14 +85,17 @@ public class MeleeEnemy : MonoBehaviour
 
         }       
         coolDown -= Time.deltaTime;
-        if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
+        if (PlayerInsight() && !enemyLife.IsDead() && !isSummoning)
         {
             
-            if (coolDown < 0 && !isSummoning)
+            if (coolDown < 0 && !isShielded)
             {
                 isAttacking = true;
                 anim.SetTrigger("isAttack");
                 coolDown = attackDuration;
+            }else if(coolDownShield < 0)
+            {
+                isShielded = true;
             }
             anim.SetInteger("state", 0);
         }
@@ -136,7 +164,7 @@ public class MeleeEnemy : MonoBehaviour
         //Find Player Line
         Gizmos.color = Color.yellow;
         Vector2 direction = transform.right.normalized * transform.localScale.x;
-        Vector3 startLine = transform.position + (Vector3)direction * 2f;
+        Vector3 startLine = transform.position + (Vector3)direction * startPosition;
         RaycastHit2D hitGround = Physics2D.Raycast(startLine, direction, findPlayerRange, groundLayer);
         if (hitGround.collider != null)
         {

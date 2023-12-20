@@ -107,7 +107,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {   
                     Jump();                
-            }else if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.L))
+            }else if (Input.GetKeyDown(KeyCode.L))
             {
                 StartCoroutine(Attack());
             }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 25)
@@ -135,7 +135,8 @@ public class PlayerMovement : MonoBehaviour
     void Jump()
     {
         if (isGrounded)
-        {            
+        {
+            AudioManager.Instance.PlaySFX("Jump");
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             isJumping = true;
         }
@@ -175,7 +176,10 @@ public class PlayerMovement : MonoBehaviour
     {
         if (directX != 0f)
         {
-           
+            if (!AudioManager.Instance.sfxSource.isPlaying && isGrounded)
+            {
+                AudioManager.Instance.PlaySFX("Run");
+            }
             state = MovementState.running;
             sprite.flipX = !isFacingRight;
         }

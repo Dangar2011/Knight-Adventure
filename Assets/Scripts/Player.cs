@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
 {
     public static Player Instance { get; private set; }
     private float playerHP = 100f;
-    private float playerDamage = 10f;
+    private float playerDamage = 20f;
     private float playerSpeed = 5f;
     public static float maxPlayerHP { get; private set;} = 300f;
-    public static float maxPlayerDamage { get; private set; } = 50f;
+    public static float maxPlayerDamage { get; private set; } = 100f;
     public static float maxPlayerSpeed { get; private set; } = 10f;
     public float coin { get; private set; }
     private void Awake()
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     private void LoadPlayerData()
     {
         playerHP = PlayerPrefs.GetFloat("PlayerHP",100f);
-        playerDamage = PlayerPrefs.GetFloat("PlayerDamage",10f);
+        playerDamage = PlayerPrefs.GetFloat("PlayerDamage",20f);
         playerSpeed = PlayerPrefs.GetFloat("PlayerSpeed",5f);
         coin = PlayerPrefs.GetFloat("PlayerCoin",0f);
     }

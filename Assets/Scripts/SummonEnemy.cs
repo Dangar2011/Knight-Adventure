@@ -18,6 +18,7 @@ public class SummonEnemy : MonoBehaviour
     public float heightSummon = 10f;
     private bool isSummoning = false;
     private bool isAttacking = false;
+    private bool isShielded;
     private float coolDown;
     void Start()
     {
@@ -26,7 +27,7 @@ public class SummonEnemy : MonoBehaviour
         anim = GetComponent<Animator>();
         enemyLife = GetComponentInParent<EnemyLife>();
         player = GameObject.FindGameObjectWithTag("Player");
-        summonPosition = transform.GetChild(0).gameObject;
+        summonPosition = transform.Find("Summon Position").gameObject;
         
     }
 
@@ -37,12 +38,12 @@ public class SummonEnemy : MonoBehaviour
         coolDown -=Time.deltaTime;
         enemyLife.isSummoning= isSummoning;
         isAttacking = enemyLife.isAttacking;
-
+        isShielded = enemyLife.isShielded;
         if (PlayerInsight() && !GetComponent<EnemyLife>().IsDead())
         {
             Vector3 playerHeadPosition = player.transform.position + Vector3.up * heightSummon; 
             summonPosition.transform.position = playerHeadPosition;
-            if (coolDown < 0 && !enemyLife.isAttacking)
+            if (coolDown < 0 && !isAttacking && !isShielded)
             {
                 isSummoning = true;
                 anim.SetTrigger("isSummon");

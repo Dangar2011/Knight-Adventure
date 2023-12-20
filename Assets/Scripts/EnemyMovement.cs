@@ -5,18 +5,15 @@ using UnityEngine.EventSystems;
 
 public class EnemyMovement : MonoBehaviour
 {
-    //[SerializeField] private Transform left;
-    //[SerializeField] private Transform right;
     [SerializeField] private Transform enemy;
     [SerializeField] private float speed;
     [SerializeField] private float idle = 1.5f;
+
     private Animator anim;
     private Vector3 initialScale;
     private EnemyLife enemyLife;
     private MovementState state;
     private bool findPlayer = false;
-    //private bool isMovingRight = true;
-    //private float idle;
     private float initialSpeed;
     private bool isMove = true;
 
@@ -43,32 +40,19 @@ public class EnemyMovement : MonoBehaviour
         }
         else if (findPlayer)
         {
-            speed = initialSpeed + 2;
+            if (!enemyLife.isShielded)
+            {
+                speed = initialSpeed + 2;
+            }
+            else
+            {
+                speed = initialSpeed - 1;
+            }
         }
         else
         {
             speed = initialSpeed;
-            //}
-            //if (findPlayer)
-            //{
-
-            //}
-            //else
-            //{
-            //if (isMovingRight)
-            //{
-            //    if (enemy.position.x <= right.position.x)
-            //        Move(1);
-            //    else
-            //        ChangeDirect();
-            //}
-            //else
-            //{
-            //    if (enemy.position.x >= left.position.x)
-            //        Move(-1);
-            //    else
-            //        ChangeDirect();
-            //}
+          
             MoveToPoint();
         }
 
@@ -78,11 +62,9 @@ public class EnemyMovement : MonoBehaviour
     {
         isMove = false;
         state = MovementState.idle;
-        //idle -= Time.deltaTime;
         yield return new WaitForSeconds(idle);
         currentWaypoint++;
         isMove = true;
-        //    isMovingRight = !isMovingRight;
     }
     private void MoveToPoint()
     {
@@ -120,19 +102,13 @@ public class EnemyMovement : MonoBehaviour
             enemy.position = Vector2.MoveTowards(enemy.position, waypoints[currentWaypoint].transform.position, Time.deltaTime * speed);
         }
     }
-    //private void Move(int directX)
-    //{
-    //    idle = idleDuration;
-    //    state = MovementState.running;
-
-    //    enemy.localScale = new Vector3(directX * initialScale.x, initialScale.y, initialScale.z);
-
-    //    enemy.position = new Vector3(enemy.position.x + Time.deltaTime * directX * speed,
-    //        enemy.position.y, enemy.position.z);
-    //}
     public void PlayerNotFound()
     {
         findPlayer = false;
+    }
+    public bool IsFindPlayer()
+    {
+        return findPlayer;
     }
     public void MoveToPlayer()
     {

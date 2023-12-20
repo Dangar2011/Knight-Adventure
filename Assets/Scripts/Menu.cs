@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
     public Slider musicSlider,sfxSlider;
     public Toggle fullScreenToggle;
     private bool isFail = false;
-
+    private bool isPaused = false;
     private void Start()
     {
         musicSlider.value = PlayerPrefs.GetFloat("MusicVolume",1);
@@ -51,32 +51,36 @@ public class Menu : MonoBehaviour
         if (PlayerLife.isFail && !isFail)
         {
             isFail = true;
+            AudioManager.Instance.musicSource.Stop();
+            AudioManager.Instance.PlaySFX("Fail");
             Fail();
         }
         
         if(SceneManager.GetActiveScene().buildIndex != 0)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                PauseGame();
-                Debug.Log(transform.Find("Pause Menu").name);
-                transform.Find("Pause Menu").gameObject.SetActive(true);
-            }
-            if (transform.Find("Pause Menu").gameObject.activeSelf == true)
-            {
-                if (Input.GetKeyDown(KeyCode.Escape))
+        {            
+          
+                if (!isPaused)
                 {
-                    ResumeGame();
-                    transform.Find("Pause Menu").gameObject.SetActive(false);
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        PauseGame();
+                    }
                 }
-                if (Input.GetKeyDown(KeyCode.M)){
-                    OpenMainMenu();
-                }
-                if (!Input.GetKeyDown(KeyCode.BackQuote))
+                else
                 {
-                    RestartGame();
+                    if (Input.GetKeyDown(KeyCode.Escape))
+                    {
+                        ResumeGame();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.M)){
+                        OpenMainMenu();
+                    }
+                    else if (Input.GetKeyDown(KeyCode.BackQuote))
+                    {
+                        RestartGame();
+                    }
                 }
-            }
+                                 
         }
     }
     public void ApplicationQuit()
@@ -90,10 +94,16 @@ public class Menu : MonoBehaviour
     }
     public void PauseGame()
     {
+        isPaused = true;
+        transform.Find("Pause Menu").gameObject.SetActive(true);
+        transform.Find("Pause Button").gameObject.SetActive(false);
         Time.timeScale = 0f;
     }
     public void ResumeGame()
     {
+        isPaused = false;
+        transform.Find("Pause Menu").gameObject.SetActive(false);
+        transform.Find("Pause Button").gameObject.SetActive(true);
         Time.timeScale = 1.0f;
     }
     public void RestartGame()

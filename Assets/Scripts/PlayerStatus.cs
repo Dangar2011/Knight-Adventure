@@ -13,7 +13,7 @@ public class PlayerStatus : MonoBehaviour
     [SerializeField] private Image currentDamage;
     private float initialHP = 100f;
     private float initialSpeed = 5f;
-    private float initialDamage = 10f;
+    private float initialDamage = 20f;
     private float currentCoin = 0;
     private float coinToUpHP = 10f;
     private float coinToUpSpeed = 10f;
@@ -113,6 +113,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if(Player.Instance.GetPlayerCoin() >= coinToUpHP)
         {
+            AudioManager.Instance.PlaySFX("Click");
             Player.Instance.SetPlayerCoin(-coinToUpHP);
             coinToUpHP = Mathf.Clamp(coinToUpHP + 5, 0, 30);
             coinToUpHPText.text = coinToUpHP.ToString();
@@ -125,6 +126,7 @@ public class PlayerStatus : MonoBehaviour
     {
         if (Player.Instance.GetPlayerCoin() >= coinToUpSpeed)
         {
+            AudioManager.Instance.PlaySFX("Click");
             Player.Instance.SetPlayerCoin(-coinToUpSpeed);
             coinToUpSpeed = Mathf.Clamp(coinToUpSpeed + 5, 0,30);
             coinToUpSpeedText.text = coinToUpSpeed.ToString();
@@ -132,15 +134,16 @@ public class PlayerStatus : MonoBehaviour
             currentSpeed.fillAmount = (Player.Instance.GetPlayerSpeed() - initialSpeed) / (Player.maxPlayerSpeed - initialSpeed);
             SetCoinToUp();
         }
-    }
+    }   
     public void UpgradeDamage()
     {
         if (Player.Instance.GetPlayerCoin() >= coinToUpDamage)
         {
+            AudioManager.Instance.PlaySFX("Click");
             Player.Instance.SetPlayerCoin(-coinToUpDamage);
             coinToUpDamage = Mathf.Clamp(coinToUpDamage + 5, 0, 30);
             coinToUpDamageText.text = coinToUpDamage.ToString();
-            Player.Instance.SetPlayerDamage();
+            Player.Instance.SetPlayerDamage(8);
             currentDamage.fillAmount = (Player.Instance.GetPlayerDamage() - initialDamage) / (Player.maxPlayerDamage - initialDamage);
             SetCoinToUp();
         }

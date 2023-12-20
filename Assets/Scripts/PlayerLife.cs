@@ -54,6 +54,7 @@ public class PlayerLife : MonoBehaviour
     private IEnumerator Die()
     {
         playerMovement.canMove = false;
+        AudioManager.Instance.PlaySFX("Death");
         anim.SetTrigger("isDeath");             
         isDead = true;
         currentLife = currentLife - 1;
@@ -77,6 +78,7 @@ public class PlayerLife : MonoBehaviour
             currentHP = Mathf.Clamp(currentHP - damage, 0, playerHP);
             if (currentHP > 0 && !isDead)
             {
+                AudioManager.Instance.PlaySFX("Hurt");
                 anim.SetTrigger("isTakeHit");
                 StartCoroutine(FlashCharacter());
                 playerMovement.canMove = false;
@@ -88,6 +90,7 @@ public class PlayerLife : MonoBehaviour
             else
             {
                 yield return null;
+                if(!isDead)
                 StartCoroutine(Die());
             }
         }

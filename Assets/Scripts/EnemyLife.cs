@@ -3,23 +3,32 @@ using UnityEngine;
 
 public class EnemyLife : MonoBehaviour
 {
-    [SerializeField] private float maxHP = 100;
     private Animator anim;
     private Collider2D coll;
+    private FloatHealthBar healthBar;
+
+    [SerializeField] private float maxHP = 100;
+    [SerializeField] private bool isEnemyFlight = false;
+
     public  bool isAttacking = false;
     public  bool isSummoning = false;
-    public float currentHP { get; private set; } = 100;   
-    public float enemyCoin { get; private set; } = 1f;
+    public bool isShielded = false;
+    public float currentHP { get; private set; }  
+    public float enemyCoin = 1f;
     public bool isDead = false;
     private bool hasDisappeared = false;
     private float timeDisappear = 0.3f;
     private float fadeTime = 0f;
-    [SerializeField] private bool isEnemyFlight = false;
+    private void Awake()
+    {
+         healthBar = GetComponentInChildren<FloatHealthBar>();
+    }
     void Start()
     {
         currentHP = maxHP;
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
+        healthBar.UpdateHealthBar(currentHP, maxHP);
     }
 
     // Update is called once per frame
@@ -29,9 +38,6 @@ public class EnemyLife : MonoBehaviour
         {
             if (isEnemyFlight)
             {
-                //float fadeDelayElapse = 0f;
-
-                Debug.Log(transform.parent.name);
                 SpriteRenderer sprite = GetComponent<SpriteRenderer>();
 
                     fadeTime += Time.deltaTime;
@@ -40,7 +46,6 @@ public class EnemyLife : MonoBehaviour
                    
                     if (fadeTime > timeDisappear)
                     {
-                        Debug.Log("acc");
                         Destroy(transform.parent.gameObject);
                     }
                 
@@ -79,15 +84,19 @@ public class EnemyLife : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
-        currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
-        if (currentHP > 1 && !isAttacking && !isSummoning)
+        if (!isShielded)
         {
-                anim.SetTrigger("isTakeHit");     
-        }
-        else if(currentHP == 0)
-        {
+            currentHP = Mathf.Clamp(currentHP - damage, 0, maxHP);
+            healthBar.UpdateHealthBar(currentHP,maxHP);
+            if (currentHP > 1 && !isAttacking && !isSummoning)
+            {
+                    anim.SetTrigger("isTakeHit");     
+            }
+            else if(currentHP == 0)
+            {
             
-            Die();
+                Die();
+            }
         }
        
     }
