@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour
             }else if (Input.GetKeyDown(KeyCode.L))
             {
                 StartCoroutine(Attack());
-            }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 25)
+            }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 20)
             {
                 StartCoroutine(Dash());
             }
@@ -153,7 +153,7 @@ public class PlayerMovement : MonoBehaviour
         if(dashDuration <= 0f)
         {
             AudioManager.Instance.PlaySFX("Dash");
-            currentMP =  Mathf.Clamp(currentMP - 25, 0, playerMP);           
+            currentMP =  Mathf.Clamp(currentMP - 20, 0, playerMP);           
             isDashing = true;            
             float originalGravity = rb.gravityScale;
             rb.gravityScale = 0f;

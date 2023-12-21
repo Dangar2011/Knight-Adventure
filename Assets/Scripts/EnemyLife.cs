@@ -66,11 +66,11 @@ public class EnemyLife : MonoBehaviour
         coll.enabled = false;
         if (isEnemyFlight)
         {
-            Collider2D deathCollider = GetComponentInChildren<Collider2D>();
+            //Collider2D deathCollider = GetComponentInChildren<Collider2D>();
             Rigidbody2D rb = GetComponentInChildren<Rigidbody2D>();
             rb.gravityScale = 2f;
             rb.velocity = new Vector2(0, rb.velocity.y);
-            deathCollider.enabled = true;
+           // deathCollider.enabled = true;
         }
      
     }
@@ -94,7 +94,7 @@ public class EnemyLife : MonoBehaviour
             }
             else if(currentHP == 0)
             {
-            
+                Destroy(healthBar.gameObject);
                 Die();
             }
         }
