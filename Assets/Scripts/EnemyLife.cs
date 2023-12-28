@@ -5,29 +5,40 @@ public class EnemyLife : MonoBehaviour
 {
     private Animator anim;
     private Collider2D coll;
-    private FloatHealthBar healthBar;
-
+    [SerializeField]private GameObject healthBarGameObj;
+    public FloatHealthBar healthBar;
+    private SpriteRenderer sprite;
     [SerializeField] private float maxHP = 100;
     [SerializeField] private bool isEnemyFlight = false;
 
     public  bool isAttacking = false;
     public  bool isSummoning = false;
     public bool isShielded = false;
-    public float currentHP { get; private set; }  
+    public float currentHP;
     public float enemyCoin = 1f;
     public bool isDead = false;
     private bool hasDisappeared = false;
     private float timeDisappear = 0.3f;
     private float fadeTime = 0f;
+
     private void Awake()
     {
-         healthBar = GetComponentInChildren<FloatHealthBar>();
+        if (healthBarGameObj == null)
+        {
+            healthBar = GetComponentInChildren<FloatHealthBar>();
+        }
+        else
+        {
+            healthBar = healthBarGameObj.GetComponent<FloatHealthBar>();
+        }
     }
     void Start()
     {
+       
         currentHP = maxHP;
         anim = GetComponent<Animator>();
         coll = GetComponent<Collider2D>();
+        sprite = GetComponent<SpriteRenderer>();
         healthBar.UpdateHealthBar(currentHP, maxHP);
     }
 
@@ -38,8 +49,6 @@ public class EnemyLife : MonoBehaviour
         {
             if (isEnemyFlight)
             {
-                SpriteRenderer sprite = GetComponent<SpriteRenderer>();
-
                     fadeTime += Time.deltaTime;
                     float newAlpha = sprite.color.a * (1 - (fadeTime / timeDisappear));
                     sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.b, newAlpha);
@@ -59,18 +68,15 @@ public class EnemyLife : MonoBehaviour
     }
     private void Die()
     {
-        //deathSound.Play();
         FinishPoint.coin += enemyCoin;
         isDead = true;
         anim.SetTrigger("isDeath");
         coll.enabled = false;
         if (isEnemyFlight)
         {
-            //Collider2D deathCollider = GetComponentInChildren<Collider2D>();
             Rigidbody2D rb = GetComponentInChildren<Rigidbody2D>();
             rb.gravityScale = 2f;
             rb.velocity = new Vector2(0, rb.velocity.y);
-           // deathCollider.enabled = true;
         }
      
     }

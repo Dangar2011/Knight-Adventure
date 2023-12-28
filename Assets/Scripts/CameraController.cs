@@ -6,7 +6,7 @@ public class CameraController : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField] private Transform player;
-    [SerializeField] private Vector2 height;
+    [SerializeField] private Vector2 height = new Vector2(0,3);
 
     private void Update()
     {

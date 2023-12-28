@@ -9,28 +9,38 @@ public class FinishPoint : MonoBehaviour
 
     public static float coin = 0;
     public TextMeshProUGUI coinText;
+    private GameObject boss;
    // public Transform enemy; 
     private Animator anim;
     public static bool isFinish = false;
-    private bool isOpenGate;
+    public static bool isOpenGate;
     public static bool isDone = false;
+    private bool isBossDead;
+    
     void Start()
     {
         anim = GetComponent<Animator>();
         coin = 0;
         isDone = false;
         isFinish = false;
+        isOpenGate = false;
+        boss = GameObject.FindGameObjectWithTag("Boss");
     }
 
     void Update()
     {
         coinText.text = coin.ToString();
-        if(!isOpenGate )
+        if (boss != null)
         {
-            if(EnemyCount.enemyCount == 0 )
+             isBossDead = boss.GetComponent<EnemyLife>().isDead;
+        }
+        if (!isOpenGate )
+        {
+           
+            if(EnemyCount.enemyCount == 0 || isBossDead)
             {
-            isOpenGate = true;
-            OpenGate();
+                isOpenGate = true;
+                OpenGate();
             }
         }
     }

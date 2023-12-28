@@ -64,7 +64,6 @@ public class Player : MonoBehaviour
     {
         coin = Mathf.Clamp(coin + value, 0,Mathf.Infinity);
         SavePlayerData();
-
     }
     public float GetPlayerCoin()
     {

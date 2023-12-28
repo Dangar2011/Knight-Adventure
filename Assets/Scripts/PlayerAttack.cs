@@ -7,8 +7,9 @@ public class PlayerAttack : MonoBehaviour
     [SerializeField] private float attackRange = 3;
     [SerializeField] private LayerMask enemyLayer;
     private float damage;
-    [SerializeField]private BoxCollider2D coll;
+    [SerializeField] private BoxCollider2D coll;
     private EnemyLife enemyLife;
+    private StoneBoss stoneBoss;
     void Start()
     {
         damage = GetComponent<Player>().GetPlayerDamage();
@@ -20,16 +21,18 @@ public class PlayerAttack : MonoBehaviour
         if (hit.collider != null)
         {
             enemyLife = hit.transform.GetComponent<EnemyLife>();
+
         }
         return hit.collider != null;
     }
     private void DamageEnemy()
     {
-        if (EnemyInsight() && !enemyLife.IsDead())
-        {
 
-            enemyLife.TakeDamage(damage);
-        }
+            if (EnemyInsight() && !enemyLife.IsDead())
+            {
+                enemyLife.TakeDamage(damage);
+            }
+
     }
     private void OnDrawGizmos()
     {

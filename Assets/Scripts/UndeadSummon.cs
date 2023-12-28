@@ -9,8 +9,6 @@ public class UndeadSummon : MonoBehaviour
     private BoxCollider2D coll;
     private Rigidbody2D rb;
     public float speed;
-    //private GameObject player;
-
 
     void Start()
     {

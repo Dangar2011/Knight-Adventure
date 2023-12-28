@@ -12,6 +12,9 @@ TagManager:
   - Coin
   - Fruit
   - Heart
+  - Boss
+  - Boss Fight
+  - Boss HealthBar
   layers:
   - Default
   - TransparentFX

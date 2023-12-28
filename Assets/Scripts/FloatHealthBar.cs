@@ -7,9 +7,10 @@ public class FloatHealthBar : MonoBehaviour
 {
     [SerializeField]private Transform enemy;
     [SerializeField]private Slider slider;
-
+    [SerializeField] private Vector3 height = Vector3.up;
     private void Start()
     {       
+
     }
     public void UpdateHealthBar(float currentHP,float maxHP)
     {
@@ -17,18 +18,21 @@ public class FloatHealthBar : MonoBehaviour
     }
     // Update is called once per frame when
     void Update()
-    {
-        if(enemy != null)
+    {       
+        if(enemy.GetComponent<StoneBoss>() == null)
         {
-
-        transform.position = enemy.position + Vector3.up*2f;
+            if(enemy != null)
+            {      
+                transform.position = enemy.position + height*2f;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+            transform.rotation = Camera.main.transform.rotation;
+            Vector3 healthBarLocalScale = new Vector3(enemy.localScale.x,1,1);
+            transform.localScale = healthBarLocalScale;  
         }
-        else
-        {
-            Destroy(gameObject);
-        }
-        transform.rotation = Camera.main.transform.rotation;
-        Vector3 healthBarLocalScale = new Vector3(enemy.localScale.x,1,1);
-        transform.localScale = healthBarLocalScale;  
+       
     }
 }

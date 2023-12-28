@@ -19,8 +19,8 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private float startPosition = 2f;
 
     [SerializeField] private bool hasShield = false;
-        [SerializeField] private float coolDownShield = 10f;
-        [SerializeField] private float shieldTime = 3f;
+    [SerializeField] private float coolDownShield = 10f;
+    [SerializeField] private float shieldTime = 3f;
     private float coolDown;
     private bool isAttacking = false;
     private bool isSummoning = false;

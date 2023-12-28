@@ -19,10 +19,6 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private AudioSource jumpSound;
 
-    [SerializeField] private Image attackBackground;
-    [SerializeField] private Image dashBackground;
-
-
     [SerializeField] private float moveSpeed = 5f;
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private float attackDuration = 0.5f;
@@ -47,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     public float currentMP;
     private enum MovementState
     {
-        idle, running, jumping, falling, doublejumping, wallsliding,dashing
+        idle, running, jumping, falling
     }
 
     // Start is called before the first frame update
@@ -69,8 +65,8 @@ public class PlayerMovement : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    private void FixedUpdate()
+    {      
         if (!GetComponent<PlayerLife>().IsDead() && !isDashing && !isAttacking)
         {
             if (directX > 0f)
@@ -89,9 +85,8 @@ public class PlayerMovement : MonoBehaviour
         isGrounded = IsGrounded();
 
         attackDuration = Mathf.Clamp(attackDuration - Time.deltaTime, 0f,attack);      
-        //if (attackDuration > 0 )attackBackground.fillAmount = attackDuration / attack;
         dashDuration = Mathf.Clamp(dashDuration - Time.deltaTime, 0f,dash);
-        //if (dashDuration > 0) dashBackground.fillAmount = dashDuration / dash;
+ 
 
         if (!isDashing)
         {
@@ -101,6 +96,9 @@ public class PlayerMovement : MonoBehaviour
         {
         rb.velocity = new Vector2(directX * moveSpeed, rb.velocity.y);
         }
+    }
+    void Update()
+    {
         
         if (canMove)
         {
