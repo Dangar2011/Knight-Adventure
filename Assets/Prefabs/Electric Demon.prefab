@@ -80,7 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 4326048835800780160}
   speed: 4
-  idle: 1.5
+  idle: 2
   waypoints:
   - {fileID: 6791101067395922687}
   - {fileID: 1176824111961195708}
@@ -396,6 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 4326048835800780160}
   slider: {fileID: 6422939876968306177}
+  height: {x: 0, y: 1, z: 0}
 --- !u!1 &8621278118405974536
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,7 +522,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5525990778038347855, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
       propertyPath: attackDuration
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 5525990778038347855, guid: 9a0702c1ccd988142bec13137ec96f67, type: 3}
       propertyPath: findPlayerRange

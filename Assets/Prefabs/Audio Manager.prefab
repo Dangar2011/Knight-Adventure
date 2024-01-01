@@ -190,7 +190,7 @@ MonoBehaviour:
   - name: Theme2
     clip: {fileID: 8300000, guid: 338d181c993838a4787bd69f4c110ca1, type: 3}
   - name: Theme3
-    clip: {fileID: 0}
+    clip: {fileID: 8300000, guid: 5f26309e2129edd498447a040ce0a6c1, type: 3}
   sfxSounds:
   - name: Click Button
     clip: {fileID: 8300000, guid: 33b6cd7837c7642958dac012307e9086, type: 3}

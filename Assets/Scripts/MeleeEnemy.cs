@@ -21,25 +21,29 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private bool hasShield = false;
     [SerializeField] private float coolDownShield = 10f;
     [SerializeField] private float shieldTime = 3f;
-    private float coolDown;
+    private float coolDown = 0f;
     private bool isAttacking = false;
     private bool isSummoning = false;
     private bool isShielded = false;
     void Start()
     {
-        coolDown = attackDuration;
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         enemyMovement = GetComponentInParent<EnemyMovement>();
         enemyLife = GetComponentInParent<EnemyLife>();
         
     }
+    private void FixedUpdate()
+    {     
+        enemyLife.isAttacking = isAttacking;
+        isSummoning = enemyLife.isSummoning;
+        coolDown -= Time.deltaTime;
+
+    }
 
     // Update is called once per frame
     void Update()
     {
-        enemyLife.isAttacking = isAttacking;
-        isSummoning = enemyLife.isSummoning;
 
         if (hasShield)
         {
@@ -84,7 +88,7 @@ public class MeleeEnemy : MonoBehaviour
             }
 
         }       
-        coolDown -= Time.deltaTime;
+
         if (PlayerInsight() && !enemyLife.IsDead() && !isSummoning)
         {
             

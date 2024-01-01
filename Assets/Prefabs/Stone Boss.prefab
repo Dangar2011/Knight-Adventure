@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3555407090809612109}
   m_Layer: 9
   m_Name: Stone Boss
-  m_TagString: Enemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -174,15 +174,14 @@ MonoBehaviour:
     m_Bits: 256
   coll: {fileID: 2796266987180109724}
   arm: {fileID: 7255455771439637026, guid: 651bad0a5be9d2149acd8c20687fd214, type: 3}
-  shieldCooldown: 20
-  healCooldown: 15
+  shieldCooldown: 15
+  healCooldown: 10
   armAttackCooldown: 5
-  armShootCooldown: 5
+  armShootCooldown: 6
+  summonCooldown: 10
   heightSummon: 20
   attackRange: 1.5
-  summonCooldown: 10
   damage: 30
-  shieldTime: 2
   isDead: 0
 --- !u!114 &3555407090809612109
 MonoBehaviour:
@@ -198,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthBarGameObj: {fileID: 0}
   healthBar: {fileID: 0}
-  maxHP: 1000
+  maxHP: 1500
   isEnemyFlight: 0
   isAttacking: 0
   isSummoning: 0

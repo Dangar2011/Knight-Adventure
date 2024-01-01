@@ -15,7 +15,6 @@ public class Stair : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(FinishPoint.isOpenGate);
         if(FinishPoint.isOpenGate == true)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);

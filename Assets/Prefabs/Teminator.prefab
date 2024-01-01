@@ -208,7 +208,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -2.15, y: 1.26}
+  m_AnchoredPosition: {x: -0.38, y: 2.49}
   m_SizeDelta: {x: 206.74, y: 38.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &2478991593256409389
@@ -511,9 +511,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 83367271
+  m_SortingLayer: 1
+  m_SortingOrder: 3
   m_Sprite: {fileID: -249549633, guid: 609db4e5a93884647a0458c106895e82, type: 3}
   m_Color: {r: 1, g: 0.4377358, b: 0.4377358, a: 1}
   m_FlipX: 1
@@ -671,7 +671,7 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  summonDuration: 10
+  summonDuration: 7
   summonRange: 10
   heightSummon: 3
 --- !u!1 &8356645841773324046

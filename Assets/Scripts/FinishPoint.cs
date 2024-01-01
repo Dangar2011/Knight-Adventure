@@ -49,7 +49,7 @@ public class FinishPoint : MonoBehaviour
         Debug.Log(("buildIndex: "+SceneManager.GetActiveScene().buildIndex));
         Debug.Log(("UnlockLevel: "+PlayerPrefs.GetInt("UnlockedLevel")));
         Debug.Log((SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel")));
-        if(EnemyCount.enemyCount == 0)
+        if(isOpenGate)
         {
             isDone = true;
             AudioManager.Instance.musicSource.Stop();
@@ -57,6 +57,8 @@ public class FinishPoint : MonoBehaviour
             float currentCoin = PlayerPrefs.GetFloat("PlayerCoin");
             float level = SceneManager.GetActiveScene().buildIndex;
             float highScore = PlayerPrefs.GetFloat("HighScore" + level);
+            PlayerMovement playerMovement = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerMovement>();
+            playerMovement.enabled = false;
             if(Score.score > highScore)
             {
                 PlayerPrefs.SetFloat("HighScore" + level, Score.score);
@@ -74,7 +76,7 @@ public class FinishPoint : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel"))
         {          
-            PlayerPrefs.SetInt("UnlockedLevel", PlayerPrefs.GetInt("UnlockedLevel", 1) + 1);
+            PlayerPrefs.SetInt("UnlockedLevel", Mathf.Clamp(PlayerPrefs.GetInt("UnlockedLevel", 1) + 1,0,3));
             PlayerPrefs.Save();
         }
     }

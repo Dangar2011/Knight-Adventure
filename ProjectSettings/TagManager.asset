@@ -15,6 +15,7 @@ TagManager:
   - Boss
   - Boss Fight
   - Boss HealthBar
+  - Pause
   layers:
   - Default
   - TransparentFX

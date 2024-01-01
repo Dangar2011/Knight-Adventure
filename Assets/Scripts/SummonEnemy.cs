@@ -19,10 +19,9 @@ public class SummonEnemy : MonoBehaviour
     private bool isSummoning = false;
     private bool isAttacking = false;
     private bool isShielded;
-    private float coolDown;
+    private float coolDown = 0f;
     void Start()
     {
-        coolDown = summonDuration;
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         enemyLife = GetComponentInParent<EnemyLife>();

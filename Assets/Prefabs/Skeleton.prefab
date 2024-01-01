@@ -212,11 +212,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881e961a12460474a86437372315a756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthBarGameObj: {fileID: 0}
+  healthBar: {fileID: 0}
   maxHP: 200
   isEnemyFlight: 0
   isAttacking: 0
   isSummoning: 0
   isShielded: 0
+  currentHP: 0
   enemyCoin: 2
   isDead: 0
 --- !u!114 &5738771457683088168
@@ -232,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: {fileID: 4172046655007265859}
-  attackDuration: 4
+  attackDuration: 3
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -397,7 +400,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 559093275103852167}
   speed: 2
-  idle: 5
+  idle: 2
   waypoints:
   - {fileID: 2995657801808681951}
   - {fileID: 8269889617707450542}
@@ -541,6 +544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 559093275103852167}
   slider: {fileID: 7497172333414310213}
+  height: {x: 0, y: 1, z: 0}
 --- !u!1 &8269889617707450542
 GameObject:
   m_ObjectHideFlags: 0

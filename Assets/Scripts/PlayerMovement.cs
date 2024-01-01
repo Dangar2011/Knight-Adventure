@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
@@ -105,7 +106,7 @@ public class PlayerMovement : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {   
                     Jump();                
-            }else if (Input.GetKeyDown(KeyCode.L))
+            }else if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
             {
                 StartCoroutine(Attack());
             }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 20)

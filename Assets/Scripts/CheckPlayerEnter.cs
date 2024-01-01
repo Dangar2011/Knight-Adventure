@@ -28,5 +28,16 @@ public class CheckPlayerEnter : MonoBehaviour
             healthBar.SetActive(true);
         }
     }
-
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (!boss.GetComponent<EnemyLife>().isDead)
+        {
+            if (collision.gameObject.CompareTag("Player"))
+            {
+                isChecked = true;
+                boss.SetActive(false);
+                healthBar.SetActive(false);
+            }
+        }
+    }
 }

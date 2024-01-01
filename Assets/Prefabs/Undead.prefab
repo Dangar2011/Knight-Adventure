@@ -328,7 +328,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 7619825603540579641}
   speed: 2
-  idle: 1.5
+  idle: 2
   waypoints:
   - {fileID: 2603350671512106798}
   - {fileID: 3418282504271910548}
@@ -436,6 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemy: {fileID: 7619825603540579641}
   slider: {fileID: 3424269629849350392}
+  height: {x: 0, y: 1, z: 0}
 --- !u!1 &7299363101620395471
 GameObject:
   m_ObjectHideFlags: 0
@@ -708,7 +709,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coll: {fileID: 7740221873460897946}
-  attackDuration: 4
+  attackDuration: 3
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -717,7 +718,7 @@ MonoBehaviour:
     m_Bits: 128
   attackRange: 2
   findPlayerRange: 7
-  damage: 20
+  damage: 30
   startPosition: 2
   hasShield: 0
   coolDownShield: 10
@@ -734,12 +735,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881e961a12460474a86437372315a756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHP: 100
+  healthBarGameObj: {fileID: 0}
+  healthBar: {fileID: 0}
+  maxHP: 300
   isEnemyFlight: 0
   isAttacking: 0
   isSummoning: 0
   isShielded: 0
-  enemyCoin: 1
+  currentHP: 0
+  enemyCoin: 3
   isDead: 0
 --- !u!114 &2307776305672383554
 MonoBehaviour:
@@ -753,12 +757,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 589161d599807204596dfddcfed7f5e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  summonPosition: {fileID: 2230396601665534576}
+  summonPosition: {fileID: 2575436280011575009}
   summon: {fileID: 1152787046539263298, guid: d2bfe8367582ac1498b2d343902a0442, type: 3}
   coll: {fileID: 7740221873460897946}
   playerLayer:
     serializedVersion: 2
     m_Bits: 256
-  summonDuration: 8
+  summonDuration: 7
   summonRange: 9
   heightSummon: 10

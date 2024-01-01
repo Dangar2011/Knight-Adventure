@@ -33,6 +33,13 @@ public class FloatHealthBar : MonoBehaviour
             Vector3 healthBarLocalScale = new Vector3(enemy.localScale.x,1,1);
             transform.localScale = healthBarLocalScale;  
         }
+        else
+        {
+            if (FinishPoint.isDone)
+            {
+                Destroy(gameObject);
+            }
+        }
        
     }
 }

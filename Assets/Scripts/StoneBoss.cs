@@ -9,17 +9,19 @@ public class StoneBoss : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     [SerializeField] private Collider2D coll;
     [SerializeField] private GameObject arm;
-
-    [SerializeField] private float shieldCooldown = 30f;
-    [SerializeField] private float healCooldown = 15f;
+    [Header("Skills Cooldown")]
+    [SerializeField] private float shieldCooldown = 15f;
+    [SerializeField] private float healCooldown = 10f;
     [SerializeField] private float armAttackCooldown = 4f;
-    [SerializeField] private float armShootCooldown = 15f;
-    //[SerializeField] private float laserCooldown = 30f;
+    [SerializeField] private float armShootCooldown = 10f;
+    [SerializeField] private float summonCooldown = 10f;
+    [SerializeField] private float summonCooldownReduced = 1f;
+
+    [Header("Skills Options")]
     [SerializeField] private float heightSummon = 20f;
     [SerializeField] private float attackRange = 2;
-    [SerializeField] private float summonCooldown = 10f;
     [SerializeField] private float damage = 30;
-    [SerializeField] private float shieldTime = 2f;
+    [SerializeField] private float healAmount = 300f;
     private Animator anim;
     private PlayerLife playerLife;
     public bool isDead = false;
@@ -29,37 +31,27 @@ public class StoneBoss : MonoBehaviour
     private bool isHealing = false;
     private bool isArmAttacking = false;
     private bool isArmShoot = false;
-    //public bool isLaser = false;
     private BossHealthBar healthBar;
     private Vector3 initialScale;
     private GameObject summonPosition;
     private GameObject armPosition;
-    //private GameObject laserPosition;
+
     private GameObject player;
     private EnemyLife enemyLife;
-    private float timeToShield;
 
-    private float shieldDuration;
-    private float healDuration;
-    private float armAttackDuration;
-    //private float laserDuration;
-    private float armShootDuration;
-    private float summonDuration;
+    private float shieldDuration = 0f;
+    private float healDuration = 0f;
+    private float armAttackDuration = 0f;
+    private float armShootDuration = 0f;
+    private float summonDuration = 0f;
+    private float summonCoolDownReduced2;
 
     private void Awake()
     {
         
 
-        initialScale = transform.localScale;
-        
-        shieldDuration = shieldCooldown;
-        healDuration = healCooldown;
-        armAttackDuration = armAttackCooldown;
-        //laserDuration = laserCooldown;
-        armShootDuration = armShootCooldown;
-        summonDuration = summonCooldown;
-        timeToShield = shieldTime;
-
+        initialScale = transform.localScale;      
+        summonCoolDownReduced2 = summonCooldown;
         enemyLife = GetComponent<EnemyLife>();
     }
     void Start()
@@ -69,9 +61,7 @@ public class StoneBoss : MonoBehaviour
         coll = GetComponent<Collider2D>();
         summonPosition = transform.Find("Summon Position").gameObject;
         armPosition = transform.Find("Arm Shoot Position").gameObject;
-        //laserPosition = transform.Find("Laser Position").gameObject;
-        player = GameObject.FindGameObjectWithTag("Player");
-       
+        player = GameObject.FindGameObjectWithTag("Player");       
         maxHP = enemyLife.currentHP;
 
     }
@@ -83,7 +73,6 @@ public class StoneBoss : MonoBehaviour
         shieldDuration -= Time.deltaTime;
         healDuration -= Time.deltaTime;
         armAttackDuration -= Time.deltaTime;
-        //laserDuration -= Time.deltaTime;
         armShootDuration -= Time.deltaTime;      
         summonDuration -= Time.deltaTime;
         enemyLife.isShielded = isShielded;
@@ -91,38 +80,39 @@ public class StoneBoss : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("shieldDuration" + shieldDuration);
-        Debug.Log("healDuration" + healDuration);
-
-        
-
-        if (!isDead && !isShielded && !isHealing)
+        if (!isDead)
         {
             if (summonDuration < 0)
             {
                 Summon();
             }
-            else if (armAttackDuration < 0 && PlayerInsight() && !isArmShoot)
+            if(!isShielded && !isHealing && !isArmShoot && !isArmAttacking)
             {
-                ArmAttack();
+                if (armAttackDuration < 0 && PlayerInsight() )
+                {
+                    ArmAttack();
+                }
+                else if (armShootDuration < 0 )
+                {
+                    ArmShoot();
+                }
+                else if(shieldDuration < 0 && (currentHP < maxHP / 2))
+                {
+                  
+                    StartCoroutine(Shield());
+                
+                }
+                else if(healDuration < 0 && (currentHP < maxHP / 3))
+                {
+                     StartCoroutine(Heal());
+                }          
             }
-            else if (armShootDuration < 0 && !isArmAttacking )
-            {
-                ArmShoot();
-            }
-            else if(shieldDuration < 0 && (currentHP < maxHP / 2))
-            {
-                 StartCoroutine(Shield());
-            }
-            else if(healDuration < 0 && (currentHP < maxHP / 3))
-            {
-                 StartCoroutine(Heal());
-            }          
-        }
-        if (!isDead) 
-        { 
             UpdateSummonPosition();
             PlayerDirection();
+        }
+        if(FinishPoint.isDone)
+        {
+            gameObject.SetActive(false);
         }
     }
 
@@ -149,7 +139,6 @@ public class StoneBoss : MonoBehaviour
         anim.SetTrigger("isArmAttack");
         armAttackDuration = armAttackCooldown;
         isArmAttacking = true;
-
     }
     
     private void Summon()
@@ -157,14 +146,27 @@ public class StoneBoss : MonoBehaviour
         Instantiate(summon, summonPosition.transform.position, Quaternion.identity);
         summonDuration = summonCooldown;
     }
-   
+    private void SetSpeedForStoneBossSummon(float value = 10f)
+    {
+        StoneBossSummon[] stoneBossSummons = summon.GetComponentsInChildren<StoneBossSummon>();
+
+        foreach (StoneBossSummon stoneBossSummon in stoneBossSummons)
+        {
+            stoneBossSummon.speed = value;
+        }
+    }
 
     private IEnumerator Shield()
     {
         anim.SetBool("isShield", true);
         isShielded = true;
         shieldDuration = shieldCooldown;
+        summonCooldown = summonCooldownReduced;
+        SetSpeedForStoneBossSummon(15f);
         yield return new WaitForSeconds(5f);
+        SetSpeedForStoneBossSummon();
+
+        summonCooldown = summonCoolDownReduced2;
         isShielded = false;
         anim.SetBool("isShield", false);
 
@@ -175,9 +177,9 @@ public class StoneBoss : MonoBehaviour
         isHealing = true;
         healDuration = healCooldown;
         anim.SetBool("isHealing", true);
-        enemyLife.currentHP = Mathf.Clamp(currentHP + 300, 0, maxHP);
         yield return new WaitForSeconds(2f);
-        enemyLife.healthBar.UpdateHealthBar(currentHP, maxHP);
+        enemyLife.currentHP = Mathf.Clamp(currentHP + healAmount, 0, maxHP);
+        enemyLife.healthBar.UpdateHealthBar(currentHP + healAmount, maxHP);
         isHealing = false;
         anim.SetBool("isHealing", false);
 
