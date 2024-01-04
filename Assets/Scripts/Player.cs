@@ -8,9 +8,9 @@ public class Player : MonoBehaviour
     private float playerHP = 100f;
     private float playerDamage = 20f;
     private float playerSpeed = 5f;
-    public static float maxPlayerHP { get; private set;} = 300f;
-    public static float maxPlayerDamage { get; private set; } = 100f;
-    public static float maxPlayerSpeed { get; private set; } = 10f;
+    public  float maxPlayerHP { get; private set;} = 300f;
+    public  float maxPlayerDamage { get; private set; } = 100f;
+    public  float maxPlayerSpeed { get; private set; } = 10f;
     public float coin { get; private set; }
     private void Awake()
     {

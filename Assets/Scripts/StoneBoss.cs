@@ -14,8 +14,8 @@ public class StoneBoss : MonoBehaviour
     [SerializeField] private float healCooldown = 10f;
     [SerializeField] private float armAttackCooldown = 4f;
     [SerializeField] private float armShootCooldown = 10f;
-    [SerializeField] private float summonCooldown = 10f;
-    [SerializeField] private float summonCooldownReduced = 1f;
+    [SerializeField] private float summonCooldown = 1f;
+    //[SerializeField] private float summonCooldownReduced = 1f;
 
     [Header("Skills Options")]
     [SerializeField] private float heightSummon = 20f;
@@ -44,14 +44,16 @@ public class StoneBoss : MonoBehaviour
     private float armAttackDuration = 0f;
     private float armShootDuration = 0f;
     private float summonDuration = 0f;
-    private float summonCoolDownReduced2;
+    //private float summonCoolDownReduced2;
+
+    private bool isBossDead = false;
 
     private void Awake()
     {
         
 
         initialScale = transform.localScale;      
-        summonCoolDownReduced2 = summonCooldown;
+        //summonCoolDownReduced2 = summonCooldown;
         enemyLife = GetComponent<EnemyLife>();
     }
     void Start()
@@ -73,13 +75,24 @@ public class StoneBoss : MonoBehaviour
         shieldDuration -= Time.deltaTime;
         healDuration -= Time.deltaTime;
         armAttackDuration -= Time.deltaTime;
-        armShootDuration -= Time.deltaTime;      
-        summonDuration -= Time.deltaTime;
+        armShootDuration -= Time.deltaTime;
+        if (isShielded)
+        {
+            summonDuration -= Time.deltaTime;
+        }
+        else
+        {
+            summonDuration = summonCooldown;
+        }
         enemyLife.isShielded = isShielded;
         currentHP = enemyLife.currentHP;
     }
     private void Update()
     {
+        Debug.Log("summonDuration"+summonDuration);
+        Debug.Log("shieldDuration" + shieldDuration);
+        Debug.Log("healDuration" + healDuration);
+
         if (!isDead)
         {
             if (summonDuration < 0)
@@ -109,6 +122,15 @@ public class StoneBoss : MonoBehaviour
             }
             UpdateSummonPosition();
             PlayerDirection();
+        }
+        else
+        {
+            anim.SetBool("isHealing", false);
+            if (!isBossDead)
+            {
+                Score.score += 500;
+                isBossDead = true;
+            }
         }
         if(FinishPoint.isDone)
         {
@@ -146,27 +168,26 @@ public class StoneBoss : MonoBehaviour
         Instantiate(summon, summonPosition.transform.position, Quaternion.identity);
         summonDuration = summonCooldown;
     }
-    private void SetSpeedForStoneBossSummon(float value = 10f)
-    {
-        StoneBossSummon[] stoneBossSummons = summon.GetComponentsInChildren<StoneBossSummon>();
+    //private void SetSpeedForStoneBossSummon(float value = 10f)
+    //{
+    //    StoneBossSummon[] stoneBossSummons = summon.GetComponentsInChildren<StoneBossSummon>();
 
-        foreach (StoneBossSummon stoneBossSummon in stoneBossSummons)
-        {
-            stoneBossSummon.speed = value;
-        }
-    }
+    //    foreach (StoneBossSummon stoneBossSummon in stoneBossSummons)
+    //    {
+    //        stoneBossSummon.speed = value;
+    //    }
+    //}
 
     private IEnumerator Shield()
     {
         anim.SetBool("isShield", true);
         isShielded = true;
         shieldDuration = shieldCooldown;
-        summonCooldown = summonCooldownReduced;
-        SetSpeedForStoneBossSummon(15f);
+        //summonCooldown = summonCooldownReduced;
+        //SetSpeedForStoneBossSummon(15f);
         yield return new WaitForSeconds(5f);
-        SetSpeedForStoneBossSummon();
-
-        summonCooldown = summonCoolDownReduced2;
+        //SetSpeedForStoneBossSummon();
+        //summonCooldown = summonCoolDownReduced2;
         isShielded = false;
         anim.SetBool("isShield", false);
 
@@ -244,6 +265,11 @@ public class StoneBoss : MonoBehaviour
             StartCoroutine(collision.GetComponent<PlayerLife>().TakeDamage(damage));
 
         }
+    }
+    public void SetBossInactive()
+    {
+        isShielded = false;
+        isHealing = false;
     }
     private void OnDrawGizmos()
     {

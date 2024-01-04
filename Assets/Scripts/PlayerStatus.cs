@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -52,7 +53,7 @@ public class PlayerStatus : MonoBehaviour
     private void UpdateUI()
     {
         if (Player.Instance.GetPlayerCoin() < coinToUpHP) upgradeHP.interactable = false;
-        else if (Player.Instance.GetPlayerHP() == Player.maxPlayerHP)
+        else if (Player.Instance.GetPlayerHP() == Player.Instance.maxPlayerHP)
         {
             upgradeHP.interactable = false;
             coinToUpHPText.text = "MAX";
@@ -60,7 +61,7 @@ public class PlayerStatus : MonoBehaviour
         else upgradeHP.interactable = true;
 
         if (Player.Instance.GetPlayerCoin() < coinToUpSpeed) upgradeSpeed.interactable = false;
-        else if (Player.Instance.GetPlayerSpeed() == Player.maxPlayerSpeed)
+        else if (Player.Instance.GetPlayerSpeed() == Player.Instance.maxPlayerSpeed)
         {
             upgradeSpeed.interactable = false;
             coinToUpSpeedText.text = "MAX";
@@ -68,7 +69,7 @@ public class PlayerStatus : MonoBehaviour
         else upgradeSpeed.interactable = true;
 
         if (Player.Instance.GetPlayerCoin() < coinToUpDamage) upgradeDamage.interactable = false;
-        else if (Player.Instance.GetPlayerDamage() == Player.maxPlayerDamage)
+        else if (Player.Instance.GetPlayerDamage() == Player.Instance.maxPlayerDamage)
         {
             upgradeDamage.interactable = false;
             coinToUpDamageText.text = "MAX";
@@ -84,17 +85,17 @@ public class PlayerStatus : MonoBehaviour
         coinToUpSpeedText.text = coinToUpSpeed.ToString();
         coinToUpDamageText.text = coinToUpDamage.ToString();
 
-        currentHP.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerHP(), Player.maxPlayerHP, initialHP);
-        currentSpeed.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerSpeed(), Player.maxPlayerSpeed, initialSpeed);
-        currentDamage.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerDamage(), Player.maxPlayerDamage, initialDamage);
+        currentHP.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerHP(), Player.Instance.maxPlayerHP, initialHP);
+        currentSpeed.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerSpeed(), Player.Instance.maxPlayerSpeed, initialSpeed);
+        currentDamage.fillAmount = CalculateFillAmount(Player.Instance.GetPlayerDamage(), Player.Instance.maxPlayerDamage, initialDamage);
     }
     private float CalculateFillAmount(float currentValue, float maxValue, float initialValue)
     {
         return (currentValue - initialValue) / (maxValue - initialValue);
     }
-    public void Cheat()
+    public void Cheat(float value = 100)
     {
-                    Player.Instance.SetPlayerCoin(100);
+        Player.Instance.SetPlayerCoin(value);
     }
     public void DeleteAllKey()
     {
@@ -107,6 +108,7 @@ public class PlayerStatus : MonoBehaviour
 
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
     public void UpgradeHP()
     {
@@ -117,7 +119,7 @@ public class PlayerStatus : MonoBehaviour
             coinToUpHP = Mathf.Clamp(coinToUpHP + 5, 0, 30);
             coinToUpHPText.text = coinToUpHP.ToString();
             Player.Instance.SetPlayerHP();
-            currentHP.fillAmount = ((Player.Instance.GetPlayerHP() - initialHP) / (Player.maxPlayerHP - initialHP));
+            currentHP.fillAmount = ((Player.Instance.GetPlayerHP() - initialHP) / (Player.Instance.maxPlayerHP - initialHP));
             SetCoinToUp();
         }
     }
@@ -130,7 +132,7 @@ public class PlayerStatus : MonoBehaviour
             coinToUpSpeed = Mathf.Clamp(coinToUpSpeed + 5, 0,30);
             coinToUpSpeedText.text = coinToUpSpeed.ToString();
             Player.Instance.SetPlayerSpeed();
-            currentSpeed.fillAmount = (Player.Instance.GetPlayerSpeed() - initialSpeed) / (Player.maxPlayerSpeed - initialSpeed);
+            currentSpeed.fillAmount = (Player.Instance.GetPlayerSpeed() - initialSpeed) / (Player.Instance.maxPlayerSpeed - initialSpeed);
             SetCoinToUp();
         }
     }   
@@ -143,7 +145,7 @@ public class PlayerStatus : MonoBehaviour
             coinToUpDamage = Mathf.Clamp(coinToUpDamage + 5, 0, 30);
             coinToUpDamageText.text = coinToUpDamage.ToString();
             Player.Instance.SetPlayerDamage(8);
-            currentDamage.fillAmount = (Player.Instance.GetPlayerDamage() - initialDamage) / (Player.maxPlayerDamage - initialDamage);
+            currentDamage.fillAmount = (Player.Instance.GetPlayerDamage() - initialDamage) / (Player.Instance.maxPlayerDamage - initialDamage);
             SetCoinToUp();
         }
     }

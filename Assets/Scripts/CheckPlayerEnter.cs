@@ -6,12 +6,12 @@ public class CheckPlayerEnter : MonoBehaviour
 {
     private GameObject boss;
     private GameObject healthBar;
-    public static bool isChecked;
+
     private void Awake()
     {
         boss = GameObject.FindGameObjectWithTag("Boss");
         healthBar = GameObject.FindGameObjectWithTag("Boss HealthBar");
-        isChecked = false;
+
         healthBar.SetActive(false);
     }
     void Start()
@@ -23,7 +23,7 @@ public class CheckPlayerEnter : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            isChecked = true;
+
             boss.SetActive(true);
             healthBar.SetActive(true);
         }
@@ -34,9 +34,13 @@ public class CheckPlayerEnter : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("Player"))
             {
-                isChecked = true;
-                boss.SetActive(false);
-                healthBar.SetActive(false);
+
+                boss.GetComponent<StoneBoss>().SetBossInactive();
+                boss.SetActive(false);                
+                if(healthBar != null)
+                {
+                    healthBar.SetActive(false);
+                }
             }
         }
     }

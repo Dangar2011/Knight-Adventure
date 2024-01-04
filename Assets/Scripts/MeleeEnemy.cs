@@ -19,19 +19,21 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private float startPosition = 2f;
 
     [SerializeField] private bool hasShield = false;
-    [SerializeField] private float coolDownShield = 10f;
-    [SerializeField] private float shieldTime = 3f;
+    [SerializeField] private float shieldCooldown = 10f;
+    //[SerializeField] private float shieldTime = 3f;
     private float coolDown = 0f;
     private bool isAttacking = false;
     private bool isSummoning = false;
     private bool isShielded = false;
+
+    private float shieldDuration;
     void Start()
     {
         coll = GetComponent<BoxCollider2D>();
         anim = GetComponent<Animator>();
         enemyMovement = GetComponentInParent<EnemyMovement>();
         enemyLife = GetComponentInParent<EnemyLife>();
-        
+        shieldDuration = shieldCooldown;
     }
     private void FixedUpdate()
     {     
@@ -47,64 +49,82 @@ public class MeleeEnemy : MonoBehaviour
 
         if (hasShield)
         {
-            coolDownShield -= Time.deltaTime;
+            shieldDuration -= Time.deltaTime;
             enemyLife.isShielded = isShielded;
-            if(isShielded)
-            {
-                anim.SetBool("isShield", true);
-                shieldTime -= Time.deltaTime;
-                if (shieldTime < 0)
-                {
-                    isShielded = false;
-                    anim.SetBool("isShield", false);
-                    coolDownShield = 10f;
-                    shieldTime = 3f;
-                }
-            }
         }
-        if (enemyMovement != null)
-        {
-            enemyMovement.enabled = !PlayerInsight();
-            if (FindPlayer() && !isAttacking && !isSummoning && !PlayerInsight())
+            //    if(isShielded)
+            //    {
+            //        anim.SetBool("isShield", true);
+            //        shieldTime -= Time.deltaTime;
+            //        if (shieldTime < 0)
+            //        {
+            //            isShielded = false;
+            //            anim.SetBool("isShield", false);
+            //            coolDownShield = 10f;
+            //            shieldTime = 3f;
+            //        }
+            //    }
+            //}
+            if (enemyMovement != null)
             {
-                enemyMovement.MoveToPlayer();
-            }
-            else
-            {
-                enemyMovement.PlayerNotFound();
-            }
-            if (!isAttacking && !isSummoning)
-            {
-                enemyMovement.enabled = true;
-            }
-            else
-            {
-                enemyMovement.enabled = false;
+                enemyMovement.enabled = !PlayerInsight();
+                if (FindPlayer() && !isAttacking && !isSummoning && !PlayerInsight())
+                {
+                    enemyMovement.MoveToPlayer();
+                }
+                else
+                {
+                    enemyMovement.PlayerNotFound();
+                }
+                if (!isAttacking && !isSummoning)
+                {
+                    enemyMovement.enabled = true;
+                }
+                else
+                {
+                    enemyMovement.enabled = false;
                 
-            }
-            if (enemyMovement.enabled == false)
-            {
-                anim.SetInteger("state", 0);
-            }
+                }
+                if (enemyMovement.enabled == false)
+                {
+                    anim.SetInteger("state", 0);
+                }
 
-        }       
+            }       
 
-        if (PlayerInsight() && !enemyLife.IsDead() && !isSummoning)
+        if (PlayerInsight() && !enemyLife.IsDead() )
         {
-            
-            if (coolDown < 0 && !isShielded)
+            if(!isShielded && !isSummoning && !isAttacking)
             {
-                isAttacking = true;
-                anim.SetTrigger("isAttack");
-                coolDown = attackDuration;
-            }else if(coolDownShield < 0)
-            {
-                isShielded = true;
+                if (coolDown < 0 )
+                {
+                    Attack();
+                }
+                else if(shieldDuration < 0 )
+                {
+                    StartCoroutine(Shield());
+                }
             }
             anim.SetInteger("state", 0);
         }
         
       
+    }
+    private void Attack()
+    {
+        isAttacking = true;
+        anim.SetTrigger("isAttack");
+        coolDown = attackDuration;
+    }
+    private IEnumerator Shield()
+    {
+        anim.SetBool("isShield", true);
+        isShielded = true;
+        shieldDuration = shieldCooldown;
+        yield return new WaitForSeconds(3f);
+        isShielded = false;
+        anim.SetBool("isShield", false);
+
     }
     public void EndAttack()
     {
@@ -142,6 +162,7 @@ public class MeleeEnemy : MonoBehaviour
         return hitPlayer.collider != null;
 
     }
+
     private void DamagePlayer()
     {
         if (PlayerInsight())

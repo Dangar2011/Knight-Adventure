@@ -178,10 +178,11 @@ MonoBehaviour:
   healCooldown: 10
   armAttackCooldown: 5
   armShootCooldown: 6
-  summonCooldown: 10
+  summonCooldown: 1
   heightSummon: 20
   attackRange: 1.5
   damage: 30
+  healAmount: 300
   isDead: 0
 --- !u!114 &3555407090809612109
 MonoBehaviour:

@@ -3518,7 +3518,7 @@ PrefabInstance:
     - target: {fileID: 3388062637835887537, guid: b60a612218807324e99920958d23cd94, type: 3}
       propertyPath: coinText
       value: 
-      objectReference: {fileID: 1452175491}
+      objectReference: {fileID: 402110489}
     - target: {fileID: 6875108024923609016, guid: b60a612218807324e99920958d23cd94, type: 3}
       propertyPath: m_Name
       value: FinishPoint

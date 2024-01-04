@@ -20,7 +20,7 @@ public class Score : MonoBehaviour
         timeDuration -= Time.deltaTime;
         if(timeDuration <= 0f && !FinishPoint.isDone)
         {
-            score = Mathf.Clamp(score - scoreDuration,0,1000);
+            score = Mathf.Clamp(score - scoreDuration,0,1500);
             scoreText.text = score.ToString();
             timeDuration = time;
         }
