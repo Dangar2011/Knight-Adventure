@@ -23,11 +23,11 @@ public class FloatHealthBar : MonoBehaviour
         {
             if(enemy != null)
             {      
-                transform.position = enemy.position + height*2f;
+                transform.position = enemy.position + height * 2f;
             }
             else
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
             transform.rotation = Camera.main.transform.rotation;
             Vector3 healthBarLocalScale = new Vector3(enemy.localScale.x,1,1);
@@ -37,7 +37,7 @@ public class FloatHealthBar : MonoBehaviour
         {
             if (FinishPoint.isDone)
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
        

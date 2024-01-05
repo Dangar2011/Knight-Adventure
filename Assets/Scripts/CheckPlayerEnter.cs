@@ -16,7 +16,7 @@ public class CheckPlayerEnter : MonoBehaviour
     }
     void Start()
     {
-        boss.SetActive(false);
+        boss.GetComponent<StoneBoss>().enabled = false;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,22 +24,24 @@ public class CheckPlayerEnter : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
 
-            boss.SetActive(true);
+            boss.GetComponent<StoneBoss>().enabled = true;
             healthBar.SetActive(true);
         }
     }
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!boss.GetComponent<EnemyLife>().isDead)
+        if (boss != null)
         {
-            if (collision.gameObject.CompareTag("Player"))
+            if (!boss.GetComponent<EnemyLife>().isDead)
             {
-
-                boss.GetComponent<StoneBoss>().SetBossInactive();
-                boss.SetActive(false);                
-                if(healthBar != null)
+                if (collision.gameObject.CompareTag("Player"))
                 {
-                    healthBar.SetActive(false);
+                    boss.GetComponent<StoneBoss>().enabled = false;
+                    //boss.SetActive(false);                
+                    if(healthBar != null)
+                    {
+                        healthBar.SetActive(false);
+                    }
                 }
             }
         }

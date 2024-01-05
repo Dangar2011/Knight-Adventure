@@ -266,11 +266,7 @@ public class StoneBoss : MonoBehaviour
 
         }
     }
-    public void SetBossInactive()
-    {
-        isShielded = false;
-        isHealing = false;
-    }
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
