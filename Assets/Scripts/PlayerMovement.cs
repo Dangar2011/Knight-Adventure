@@ -40,7 +40,6 @@ public class PlayerMovement : MonoBehaviour
     private float attack = 0f;
     private float dash = 0f;
     public int facingDirection = 1;
-    public bool canMove = true;
     public float currentMP;
     private enum MovementState
     {
@@ -68,20 +67,29 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void FixedUpdate()
     {      
-        if (!GetComponent<PlayerLife>().IsDead() && !isDashing && !isAttacking)
+        if (!GetComponent<PlayerLife>().IsDead())
         {
-            if (directX > 0f)
+            if(!isDashing && !isAttacking)
             {
-                isFacingRight = true;
-                facingDirection = 1;
-            }
-            else if (directX < 0f)
-            {
-                isFacingRight = false;
-                facingDirection = -1;
 
+                if (directX > 0f)
+                {
+                    isFacingRight = true;
+                    facingDirection = 1;
+                }
+                else if (directX < 0f)
+                {
+                    isFacingRight = false;
+                    facingDirection = -1;
+
+                }
             }
         }
+        else
+        {
+            rb.velocity = Vector2.zero;
+        }
+        
         directX = Input.GetAxisRaw("Horizontal");
         isGrounded = IsGrounded();
 
@@ -93,44 +101,47 @@ public class PlayerMovement : MonoBehaviour
         {
             currentMP = Mathf.Clamp(currentMP + Time.deltaTime * MPRecoverySpeed, 0, playerMP);
         }
-        if (!isAttacking && !isDashing && canMove)
+        if (!isAttacking && !isDashing)
         {
         rb.velocity = new Vector2(directX * moveSpeed, rb.velocity.y);
         }
     }
     void Update()
-    {
-        
-        if (canMove)
-        {
+    {     
             if (Input.GetButtonDown("Jump"))
             {   
                     Jump();                
             }else if (Input.GetMouseButtonDown(0) && EventSystem.current.IsPointerOverGameObject() == false)
             {
-                StartCoroutine(Attack());
+                Attack();
             }else if(Input.GetKeyDown(KeyCode.LeftShift) && currentMP >= 20)
             {
                 StartCoroutine(Dash());
-            }
-        }
+            }    
         UpdateAnimationMove();
 
     }
-    private IEnumerator Attack()
+    private void Attack()
     {
         if(attackDuration <= 0f)
         {
             AudioManager.Instance.PlaySFX("Attack");
             isAttacking = true;
+            if(isGrounded && !isDashing)
+            {
+                rb.velocity = new Vector2(0,rb.velocity.y);
+            }
             anim.SetTrigger("isAttack");
             attackDuration = attack;
-            yield return new WaitForSeconds(0.2f);
-            isAttacking = false;            
+            //yield return new WaitForSeconds(0.2f);
+            //isAttacking = false;            
         }
     
     }
-
+    private void EndAttack()
+    {
+        isAttacking = false;
+    }
     void Jump()
     {
         if (isGrounded)

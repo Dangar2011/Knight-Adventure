@@ -53,7 +53,7 @@ public class PlayerLife : MonoBehaviour
 
     private IEnumerator Die()
     {
-        playerMovement.canMove = false;
+        rb.bodyType = RigidbodyType2D.Static;
         AudioManager.Instance.PlaySFX("Death");
         anim.SetTrigger("isDeath");             
         isDead = true;
@@ -81,10 +81,8 @@ public class PlayerLife : MonoBehaviour
                 AudioManager.Instance.PlaySFX("Hurt");
                 anim.SetTrigger("isTakeHit");
                 StartCoroutine(FlashCharacter());
-                playerMovement.canMove = false;
                 rb.velocity = new Vector2(enemyPosition * bounceBack, bounceBack * 1.7f);
                 invicibilityTime = flashDuration;
-                playerMovement.canMove = true;
                 yield return null;
             }
             else
@@ -122,7 +120,7 @@ public class PlayerLife : MonoBehaviour
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetTrigger("respawn");
-        playerMovement.canMove = true;
+        PlayerMovement.isAttacking = false;
         transform.position = respawnPosition;
         currentHP = playerHP;
         playerMovement.currentMP = playerMovement.playerMP; 
