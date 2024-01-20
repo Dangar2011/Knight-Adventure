@@ -15,29 +15,33 @@ public class ItemCollector : MonoBehaviour
     {
         if (coll.gameObject.CompareTag("Coin"))
         {
-            FinishPoint.coin++;
-            AudioManager.Instance.PlaySFX("CollectCoin");
-            Destroy(coll.gameObject);
+            CollectCoin(coll);
 
         };
         if (coll.gameObject.CompareTag("Fruit"))
         {
-            AudioManager.Instance.PlaySFX("Collect Fruit");
             playerLife.Heal(HPHeal);
-            coll.GetComponent<Animator>().SetBool("isCollected", true);
-            coll.GetComponent<Collider2D>().enabled = false;
-            float animationDuration = coll.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-            StartCoroutine(DelayDestroyObj(coll.gameObject, animationDuration-0.5f));
+            CollectItem("Collect Fruit", coll);
         }
         if (coll.gameObject.CompareTag("Heart"))
         {
-            AudioManager.Instance.PlaySFX("Collect Heart");
             playerLife.CollectHeart(); 
-            coll.GetComponent<Animator>().SetBool("isCollected", true);
-            coll.GetComponent<Collider2D>().enabled = false;
-            float animationDuration = coll.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
-            StartCoroutine(DelayDestroyObj(coll.gameObject, animationDuration - 0.5f));
+            CollectItem("Collect Heart", coll);
         }
+    }
+    private void CollectItem(string name,Collider2D coll)
+    {
+        AudioManager.Instance.PlaySFX(name);
+        coll.GetComponent<Animator>().SetBool("isCollected", true);
+        coll.GetComponent<Collider2D>().enabled = false;
+        float animationDuration = coll.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length;
+        StartCoroutine(DelayDestroyObj(coll.gameObject, animationDuration - 0.5f));
+    }
+    private void CollectCoin(Collider2D coll)
+    {
+        FinishPoint.coin++;
+        AudioManager.Instance.PlaySFX("CollectCoin");
+        Destroy(coll.gameObject);
     }
     private IEnumerator DelayDestroyObj(GameObject gameObject,float delaytime)
     {

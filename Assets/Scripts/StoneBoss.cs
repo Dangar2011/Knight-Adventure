@@ -89,10 +89,6 @@ public class StoneBoss : MonoBehaviour
     }
     private void Update()
     {
-        Debug.Log("summonDuration"+summonDuration);
-        Debug.Log("shieldDuration" + shieldDuration);
-        Debug.Log("healDuration" + healDuration);
-
         if (!isDead)
         {
             if (summonDuration < 0)

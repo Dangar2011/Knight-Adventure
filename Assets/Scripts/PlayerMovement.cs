@@ -39,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
     public static bool isDashing = false;
     private float attack = 0f;
     private float dash = 0f;
-    public int facingDirection = 1;
+    public static int facingDirection = 1;
     public float currentMP;
     private enum MovementState
     {
@@ -62,6 +62,7 @@ public class PlayerMovement : MonoBehaviour
         dashDuration = 0;
         isAttacking = false;
         isDashing = false;
+        facingDirection = 1;
     }
 
     // Update is called once per frame
@@ -132,9 +133,7 @@ public class PlayerMovement : MonoBehaviour
                 rb.velocity = new Vector2(0,rb.velocity.y);
             }
             anim.SetTrigger("isAttack");
-            attackDuration = attack;
-            //yield return new WaitForSeconds(0.2f);
-            //isAttacking = false;            
+            attackDuration = attack;      
         }
     
     }

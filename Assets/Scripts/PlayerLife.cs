@@ -70,6 +70,7 @@ public class PlayerLife : MonoBehaviour
             RespawnPlayer();
         }
     }
+
     public IEnumerator TakeDamage(float damage)
     {
         if (invicibilityTime == 0)
@@ -92,11 +93,8 @@ public class PlayerLife : MonoBehaviour
                 StartCoroutine(Die());
             }
         }
-        else
-        {
-
-        }
     }
+
     private IEnumerator FlashCharacter()
     {
        

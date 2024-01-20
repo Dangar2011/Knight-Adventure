@@ -88,14 +88,7 @@ public class EnemyMovement : MonoBehaviour
             {
                StartCoroutine(ChangeDirect());                
             }
-        }
-
-        if (currentWaypoint >= waypoints.Length)
-        {
-            currentWaypoint = 0;
-        }
-       
-       
+        }      
         if (isMove)
         {
             state = MovementState.running;

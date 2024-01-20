@@ -16,7 +16,7 @@ public class MeleeEnemy : MonoBehaviour
     [SerializeField] private float attackRange;
     [SerializeField] private float findPlayerRange;
     [SerializeField] private int damage = 20;
-    [SerializeField] private float startPosition = 2f;
+    //[SerializeField] private float startPosition = 2f;
 
     [SerializeField] private bool hasShield = false;
     [SerializeField] private float shieldCooldown = 10f;
@@ -40,31 +40,16 @@ public class MeleeEnemy : MonoBehaviour
         enemyLife.isAttacking = isAttacking;
         isSummoning = enemyLife.isSummoning;
         coolDown -= Time.deltaTime;
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
         if (hasShield)
         {
             shieldDuration -= Time.deltaTime;
             enemyLife.isShielded = isShielded;
         }
-            //    if(isShielded)
-            //    {
-            //        anim.SetBool("isShield", true);
-            //        shieldTime -= Time.deltaTime;
-            //        if (shieldTime < 0)
-            //        {
-            //            isShielded = false;
-            //            anim.SetBool("isShield", false);
-            //            coolDownShield = 10f;
-            //            shieldTime = 3f;
-            //        }
-            //    }
-            //}
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
             if (enemyMovement != null)
             {
                 enemyMovement.enabled = !PlayerInsight();
@@ -152,7 +137,6 @@ public class MeleeEnemy : MonoBehaviour
         {
             Vector2 playerDirection = hitGround.point - (Vector2)transform.position;
             hitPlayer = Physics2D.Raycast(transform.position, playerDirection.normalized, playerDirection.magnitude, playerLayer);
-            //hitPlayer = Physics2D.Raycast(startLine, hitGround.point - (Vector2)transform.position, findPlayerRange, playerLayer);
         }
         else
         {
@@ -180,27 +164,27 @@ public class MeleeEnemy : MonoBehaviour
 
     }
     private void OnDrawGizmos()
-    {       
+    {
         //Attack Box
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(coll.bounds.center + transform.right * attackRange * transform.localScale.x,
-           new Vector3(coll.bounds.size.x * attackRange, coll.bounds.size.y, coll.bounds.size.z));
-        
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawWireCube(coll.bounds.center + transform.right * attackRange * transform.localScale.x,
+        //   new Vector3(coll.bounds.size.x * attackRange, coll.bounds.size.y, coll.bounds.size.z));
+
         //Find Player Line
-        Gizmos.color = Color.yellow;
-        Vector2 direction = transform.right.normalized * transform.localScale.x;
-        Vector3 startLine = transform.position + (Vector3)direction * startPosition;
-        RaycastHit2D hitGround = Physics2D.Raycast(startLine, direction, findPlayerRange, groundLayer);
-        if (hitGround.collider != null)
-        {
-          
-            Gizmos.DrawLine(startLine, hitGround.point);
-        }
-        else
-        {
-            Vector3 endPosition = transform.position + (Vector3)(direction * findPlayerRange);
-            Gizmos.DrawLine(startLine, endPosition);
-        }
+        //Gizmos.color = Color.yellow;
+        //Vector2 direction = transform.right.normalized * transform.localScale.x;
+        //Vector3 startLine = transform.position + (Vector3)direction * startPosition;
+        //RaycastHit2D hitGround = Physics2D.Raycast(startLine, direction, findPlayerRange, groundLayer);
+        //if (hitGround.collider != null)
+        //{
+
+        //    Gizmos.DrawLine(startLine, hitGround.point);
+        //}
+        //else
+        //{
+        //    Vector3 endPosition = transform.position + (Vector3)(direction * findPlayerRange);
+        //    Gizmos.DrawLine(startLine, endPosition);
+        //}
 
 
     }

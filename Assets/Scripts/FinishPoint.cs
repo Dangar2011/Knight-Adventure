@@ -46,9 +46,6 @@ public class FinishPoint : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(("buildIndex: "+SceneManager.GetActiveScene().buildIndex));
-        Debug.Log(("UnlockLevel: "+PlayerPrefs.GetInt("UnlockedLevel")));
-        Debug.Log((SceneManager.GetActiveScene().buildIndex >= PlayerPrefs.GetInt("UnlockedLevel")));
         if(isOpenGate)
         {
             isDone = true;
