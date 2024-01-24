@@ -77,6 +77,7 @@ public class PlayerLife : MonoBehaviour
         {
             
             currentHP = Mathf.Clamp(currentHP - damage, 0, playerHP);
+            PlayerMovement.isAttacking = false;
             if (currentHP > 0 && !isDead)
             {
                 AudioManager.Instance.PlaySFX("Hurt");
@@ -118,7 +119,6 @@ public class PlayerLife : MonoBehaviour
     {
         rb.bodyType = RigidbodyType2D.Dynamic;
         anim.SetTrigger("respawn");
-        PlayerMovement.isAttacking = false;
         transform.position = respawnPosition;
         currentHP = playerHP;
         playerMovement.currentMP = playerMovement.playerMP; 

@@ -83,6 +83,6 @@ public class Player : MonoBehaviour
         playerHP = PlayerPrefs.GetFloat("PlayerHP",100f);
         playerDamage = PlayerPrefs.GetFloat("PlayerDamage",20f);
         playerSpeed = PlayerPrefs.GetFloat("PlayerSpeed",5f);
-        coin = PlayerPrefs.GetFloat("PlayerCoin",0f);
+        coin = PlayerPrefs.GetFloat("PlayerCoin",150f);
     }
 }
